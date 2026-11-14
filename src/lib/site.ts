@@ -5,8 +5,7 @@ export const SITE = {
   mission:
     "Building an inclusive Toronto where every person living with a disability has access to dignity, opportunity, independence, and community support.",
   location: "Toronto, Ontario, Canada",
-  // Placeholder until the organizer supplies a verified address.
-  contactEmail: "hello@example.org",
+  contactEmail: "katejasphine@gmail.com",
 };
 
 export const FOUNDER_STORY = {
