@@ -1,4 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { campaignsQuery } from "@/lib/campaigns.functions";
 import { Lock } from "lucide-react";
 import { useId, useState, type FormEvent } from "react";
 import { Button } from "@/components/ui/button";
@@ -21,12 +23,21 @@ export const Route = createFileRoute("/donate")({
       { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
+  validateSearch: (search: Record<string, unknown>): { campaign?: string } =>
+    typeof search.campaign === "string" && /^[a-z0-9-]{1,80}$/.test(search.campaign) ? { campaign: search.campaign } : {},
+  loader: ({ context }) => context.queryClient.ensureQueryData(campaignsQuery()),
   component: Donate,
 });
 
 type Choice = number | "custom";
 
 function Donate() {
+  const { campaign: campaignParam } = Route.useSearch();
+  const { data: campaigns } = useSuspenseQuery(campaignsQuery());
+  const openCampaigns = campaigns.filter((c) => c.status === "published");
+  const [fund, setFund] = useState<string>(
+    openCampaigns.some((c) => c.slug === campaignParam) ? (campaignParam as string) : "general",
+  );
   const [choice, setChoice] = useState<Choice>(50);
   const [custom, setCustom] = useState("");
   const [anonymous, setAnonymous] = useState(false);
@@ -56,13 +67,26 @@ function Donate() {
       </PageHeader>
       <section className="container-page mt-12 grid gap-10 lg:grid-cols-[1.4fr_1fr]">
         <form onSubmit={onSubmit} noValidate className="space-y-8 rounded-3xl border border-border bg-card p-7 shadow-card md:p-10">
-          <div className="space-y-2">
-            <p className="text-lg font-bold">Where your gift goes</p>
-            <p className="text-sm text-muted-foreground">
-              Your gift goes to the General Community Fund, pooled and shared across approved assistance requests.
-              When individual campaigns are published, you'll be able to give to a specific person instead.
-            </p>
-          </div>
+          <fieldset>
+            <legend className="text-lg font-bold">Where your gift goes</legend>
+            <div className="mt-3 space-y-3">
+              <FundOption
+                checked={fund === "general"}
+                onSelect={() => setFund("general")}
+                title="General Community Fund"
+                detail="Pooled and shared across approved assistance requests."
+              />
+              {openCampaigns.map((c) => (
+                <FundOption
+                  key={c.slug}
+                  checked={fund === c.slug}
+                  onSelect={() => setFund(c.slug)}
+                  title={c.title}
+                  detail={`${formatCAD(c.raised_cad)} raised of ${formatCAD(c.goal_cad)}`}
+                />
+              ))}
+            </div>
+          </fieldset>
 
           <fieldset>
             <legend className="text-lg font-bold">Choose an amount (CAD)</legend>
@@ -158,6 +182,23 @@ function AmountOption({ label, checked, onSelect }: { label: string; checked: bo
     >
       <input type="radio" name="amount" className="sr-only" checked={checked} onChange={onSelect} />
       {label}
+    </label>
+  );
+}
+
+function FundOption({ checked, onSelect, title, detail }: { checked: boolean; onSelect: () => void; title: string; detail: string }) {
+  return (
+    <label
+      className={cn(
+        "flex cursor-pointer items-start gap-3 rounded-2xl border-2 p-4 transition-colors has-[:focus-visible]:outline has-[:focus-visible]:outline-[3px] has-[:focus-visible]:outline-ring",
+        checked ? "border-primary bg-secondary" : "border-border bg-background hover:border-primary",
+      )}
+    >
+      <input type="radio" name="fund" checked={checked} onChange={onSelect} className="mt-1 size-5 accent-[var(--color-primary)]" />
+      <span>
+        <span className="block font-bold">{title}</span>
+        <span className="block text-sm text-muted-foreground">{detail}</span>
+      </span>
     </label>
   );
 }

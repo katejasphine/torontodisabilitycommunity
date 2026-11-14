@@ -10,7 +10,9 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AboutRouteImport } from './routes/about'
+import { Route as AuthRouteImport } from './routes/auth'
 import { Route as CampaignsRouteImport } from './routes/campaigns'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as DonateRouteImport } from './routes/donate'
@@ -21,16 +23,27 @@ import { Route as StoriesRouteImport } from './routes/stories'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as TransparencyRouteImport } from './routes/transparency'
 import { Route as UpdatesRouteImport } from './routes/updates'
+import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as CampaignsIndexRouteImport } from './routes/campaigns.index'
+import { Route as CampaignsSlugRouteImport } from './routes/campaigns.$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CampaignsRoute = CampaignsRouteImport.update({
@@ -83,15 +96,26 @@ const UpdatesRoute = UpdatesRouteImport.update({
   path: '/updates',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const CampaignsIndexRoute = CampaignsIndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => CampaignsRoute,
+} as any)
+const CampaignsSlugRoute = CampaignsSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
   getParentRoute: () => CampaignsRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/auth': typeof AuthRoute
   '/campaigns': typeof CampaignsRouteWithChildren
   '/contact': typeof ContactRoute
   '/donate': typeof DonateRoute
@@ -102,11 +126,14 @@ export interface FileRoutesByFullPath {
   '/terms': typeof TermsRoute
   '/transparency': typeof TransparencyRoute
   '/updates': typeof UpdatesRoute
+  '/admin': typeof AuthenticatedAdminRoute
+  '/campaigns/$slug': typeof CampaignsSlugRoute
   '/campaigns/': typeof CampaignsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
   '/donate': typeof DonateRoute
   '/impact': typeof ImpactRoute
@@ -116,12 +143,16 @@ export interface FileRoutesByTo {
   '/terms': typeof TermsRoute
   '/transparency': typeof TransparencyRoute
   '/updates': typeof UpdatesRoute
+  '/admin': typeof AuthenticatedAdminRoute
+  '/campaigns/$slug': typeof CampaignsSlugRoute
   '/campaigns': typeof CampaignsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/about': typeof AboutRoute
+  '/auth': typeof AuthRoute
   '/campaigns': typeof CampaignsRouteWithChildren
   '/contact': typeof ContactRoute
   '/donate': typeof DonateRoute
@@ -132,6 +163,8 @@ export interface FileRoutesById {
   '/terms': typeof TermsRoute
   '/transparency': typeof TransparencyRoute
   '/updates': typeof UpdatesRoute
+  '/_authenticated/admin': typeof AuthenticatedAdminRoute
+  '/campaigns/$slug': typeof CampaignsSlugRoute
   '/campaigns/': typeof CampaignsIndexRoute
 }
 export interface FileRouteTypes {
@@ -139,6 +172,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/about'
+    | '/auth'
     | '/campaigns'
     | '/contact'
     | '/donate'
@@ -149,11 +183,14 @@ export interface FileRouteTypes {
     | '/terms'
     | '/transparency'
     | '/updates'
+    | '/admin'
+    | '/campaigns/$slug'
     | '/campaigns/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/about'
+    | '/auth'
     | '/contact'
     | '/donate'
     | '/impact'
@@ -163,11 +200,15 @@ export interface FileRouteTypes {
     | '/terms'
     | '/transparency'
     | '/updates'
+    | '/admin'
+    | '/campaigns/$slug'
     | '/campaigns'
   id:
     | '__root__'
     | '/'
+    | '/_authenticated'
     | '/about'
+    | '/auth'
     | '/campaigns'
     | '/contact'
     | '/donate'
@@ -178,12 +219,16 @@ export interface FileRouteTypes {
     | '/terms'
     | '/transparency'
     | '/updates'
+    | '/_authenticated/admin'
+    | '/campaigns/$slug'
     | '/campaigns/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AboutRoute: typeof AboutRoute
+  AuthRoute: typeof AuthRoute
   CampaignsRoute: typeof CampaignsRouteWithChildren
   ContactRoute: typeof ContactRoute
   DonateRoute: typeof DonateRoute
@@ -205,11 +250,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/about': {
       id: '/about'
       path: '/about'
       fullPath: '/about'
       preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/campaigns': {
@@ -282,6 +341,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof UpdatesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/admin': {
+      id: '/_authenticated/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AuthenticatedAdminRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/campaigns/': {
       id: '/campaigns/'
       path: '/'
@@ -289,14 +355,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CampaignsIndexRouteImport
       parentRoute: typeof CampaignsRoute
     }
+    '/campaigns/$slug': {
+      id: '/campaigns/$slug'
+      path: '/$slug'
+      fullPath: '/campaigns/$slug'
+      preLoaderRoute: typeof CampaignsSlugRouteImport
+      parentRoute: typeof CampaignsRoute
+    }
   }
 }
 
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAdminRoute: typeof AuthenticatedAdminRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAdminRoute: AuthenticatedAdminRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
 interface CampaignsRouteChildren {
+  CampaignsSlugRoute: typeof CampaignsSlugRoute
   CampaignsIndexRoute: typeof CampaignsIndexRoute
 }
 
 const CampaignsRouteChildren: CampaignsRouteChildren = {
+  CampaignsSlugRoute: CampaignsSlugRoute,
   CampaignsIndexRoute: CampaignsIndexRoute,
 }
 
@@ -306,7 +392,9 @@ const CampaignsRouteWithChildren = CampaignsRoute._addFileChildren(
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AboutRoute: AboutRoute,
+  AuthRoute: AuthRoute,
   CampaignsRoute: CampaignsRouteWithChildren,
   ContactRoute: ContactRoute,
   DonateRoute: DonateRoute,

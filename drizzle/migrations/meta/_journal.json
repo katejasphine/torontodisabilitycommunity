@@ -15,6 +15,20 @@
       "when": 1794617929451,
       "tag": "0001_tighten_contact_messages_insert",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1794619378611,
+      "tag": "0002_campaigns_admin_donations",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1794619413287,
+      "tag": "0003_campaign_types",
+      "breakpoints": true
     }
   ]
 }

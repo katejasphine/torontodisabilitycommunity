@@ -6,6 +6,9 @@ import communityPhoto from "@/assets/community-gathering.jpg.asset.json";
 import { FundProgress } from "@/components/site/FundProgress";
 import { ImpactStats } from "@/components/site/ImpactStats";
 import { GENERAL_FUND, SITE } from "@/lib/site";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { CampaignCard } from "@/components/site/CampaignCard";
+import { campaignsQuery } from "@/lib/campaigns.functions";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -25,10 +28,13 @@ export const Route = createFileRoute("/")({
       { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
+  loader: ({ context }) => context.queryClient.ensureQueryData(campaignsQuery()),
   component: Home,
 });
 
 function Home() {
+  const { data: campaigns } = useSuspenseQuery(campaignsQuery());
+  const featured = campaigns.filter((c) => c.status === "published").slice(0, 2);
   return (
     <>
       {/* Hero */}
@@ -100,21 +106,30 @@ function Home() {
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
             <h2 id="featured-heading" className="text-3xl font-semibold md:text-4xl">Featured campaigns</h2>
-            <p className="mt-2 max-w-2xl text-muted-foreground">Featured only with each person's permission.</p>
+            <p className="mt-2 max-w-2xl text-muted-foreground">
+              Community appeals for specific needs. Stories about one person are shared only with their written consent.
+            </p>
           </div>
           <Link to="/campaigns" className="inline-flex items-center gap-2 font-bold text-primary underline underline-offset-4">
             Browse all campaigns <ArrowRight aria-hidden="true" className="size-4" />
           </Link>
         </div>
-        <div className="mt-8 rounded-3xl border border-border bg-card p-8 shadow-card">
-          <p className="text-lg text-muted-foreground">
-            No individual campaigns are live yet. When a request is approved and the person agrees to share their
-            story, their campaign will appear here — always with their permission.
-          </p>
-          <Button asChild variant="outline" className="mt-6">
-            <Link to="/request-assistance">Request assistance for yourself or someone you know</Link>
-          </Button>
-        </div>
+        {featured.length > 0 ? (
+          <ul className="mt-8 grid gap-6 md:grid-cols-2">
+            {featured.map((c) => (
+              <li key={c.id} className="relative flex">
+                <CampaignCard campaign={c} />
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <div className="mt-8 rounded-3xl border border-border bg-card p-8 shadow-card">
+            <p className="text-lg text-muted-foreground">No campaigns are live yet.</p>
+            <Button asChild variant="outline" className="mt-6">
+              <Link to="/request-assistance">Request assistance for yourself or someone you know</Link>
+            </Button>
+          </div>
+        )}
       </section>
 
       {/* Community photo + about */}

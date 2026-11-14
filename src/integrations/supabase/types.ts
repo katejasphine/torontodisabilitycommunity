@@ -53,6 +53,189 @@ export type Database = {
         }
         Relationships: []
       }
+      campaign_allocations: {
+        Row: {
+          amount_cad: number
+          campaign_id: string
+          created_at: string
+          id: string
+          label: string
+          sort_order: number
+        }
+        Insert: {
+          amount_cad: number
+          campaign_id: string
+          created_at?: string
+          id?: string
+          label: string
+          sort_order?: number
+        }
+        Update: {
+          amount_cad?: number
+          campaign_id?: string
+          created_at?: string
+          id?: string
+          label?: string
+          sort_order?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "campaign_allocations_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "campaigns"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      campaign_documents: {
+        Row: {
+          campaign_id: string
+          created_at: string
+          file_name: string
+          file_path: string
+          id: string
+          kind: Database["public"]["Enums"]["campaign_document_kind"]
+          uploaded_by: string | null
+        }
+        Insert: {
+          campaign_id: string
+          created_at?: string
+          file_name: string
+          file_path: string
+          id?: string
+          kind: Database["public"]["Enums"]["campaign_document_kind"]
+          uploaded_by?: string | null
+        }
+        Update: {
+          campaign_id?: string
+          created_at?: string
+          file_name?: string
+          file_path?: string
+          id?: string
+          kind?: Database["public"]["Enums"]["campaign_document_kind"]
+          uploaded_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "campaign_documents_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "campaigns"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      campaign_verifications: {
+        Row: {
+          campaign_id: string
+          consent_date: string | null
+          consent_given: boolean
+          consent_scope: string | null
+          contact_email: string | null
+          contact_phone: string | null
+          identity_verified: boolean
+          legal_name: string | null
+          updated_at: string
+          verification_method: string | null
+          verification_notes: string | null
+          verified_at: string | null
+          verified_by: string | null
+        }
+        Insert: {
+          campaign_id: string
+          consent_date?: string | null
+          consent_given?: boolean
+          consent_scope?: string | null
+          contact_email?: string | null
+          contact_phone?: string | null
+          identity_verified?: boolean
+          legal_name?: string | null
+          updated_at?: string
+          verification_method?: string | null
+          verification_notes?: string | null
+          verified_at?: string | null
+          verified_by?: string | null
+        }
+        Update: {
+          campaign_id?: string
+          consent_date?: string | null
+          consent_given?: boolean
+          consent_scope?: string | null
+          contact_email?: string | null
+          contact_phone?: string | null
+          identity_verified?: boolean
+          legal_name?: string | null
+          updated_at?: string
+          verification_method?: string | null
+          verification_notes?: string | null
+          verified_at?: string | null
+          verified_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "campaign_verifications_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: true
+            referencedRelation: "campaigns"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      campaigns: {
+        Row: {
+          beneficiary_display_name: string
+          campaign_message: string | null
+          category: Database["public"]["Enums"]["assistance_type"]
+          created_at: string
+          goal_cad: number
+          id: string
+          kind: Database["public"]["Enums"]["campaign_kind"]
+          photo_alt: string | null
+          photo_path: string | null
+          published_at: string | null
+          slug: string
+          status: Database["public"]["Enums"]["campaign_status"]
+          story: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          beneficiary_display_name: string
+          campaign_message?: string | null
+          category: Database["public"]["Enums"]["assistance_type"]
+          created_at?: string
+          goal_cad: number
+          id?: string
+          kind?: Database["public"]["Enums"]["campaign_kind"]
+          photo_alt?: string | null
+          photo_path?: string | null
+          published_at?: string | null
+          slug: string
+          status?: Database["public"]["Enums"]["campaign_status"]
+          story: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          beneficiary_display_name?: string
+          campaign_message?: string | null
+          category?: Database["public"]["Enums"]["assistance_type"]
+          created_at?: string
+          goal_cad?: number
+          id?: string
+          kind?: Database["public"]["Enums"]["campaign_kind"]
+          photo_alt?: string | null
+          photo_path?: string | null
+          published_at?: string | null
+          slug?: string
+          status?: Database["public"]["Enums"]["campaign_status"]
+          story?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       contact_messages: {
         Row: {
           created_at: string
@@ -80,14 +263,100 @@ export type Database = {
         }
         Relationships: []
       }
+      donations: {
+        Row: {
+          amount_cad: number
+          campaign_id: string | null
+          completed_at: string | null
+          created_at: string
+          currency: string
+          donor_display_name: string | null
+          environment: string
+          id: string
+          is_anonymous: boolean
+          provider: string
+          provider_payment_id: string | null
+          status: Database["public"]["Enums"]["donation_status"]
+        }
+        Insert: {
+          amount_cad: number
+          campaign_id?: string | null
+          completed_at?: string | null
+          created_at?: string
+          currency?: string
+          donor_display_name?: string | null
+          environment?: string
+          id?: string
+          is_anonymous?: boolean
+          provider?: string
+          provider_payment_id?: string | null
+          status?: Database["public"]["Enums"]["donation_status"]
+        }
+        Update: {
+          amount_cad?: number
+          campaign_id?: string | null
+          completed_at?: string | null
+          created_at?: string
+          currency?: string
+          donor_display_name?: string | null
+          environment?: string
+          id?: string
+          is_anonymous?: boolean
+          provider?: string
+          provider_payment_id?: string | null
+          status?: Database["public"]["Enums"]["donation_status"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "donations_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "campaigns"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_roles: {
+        Row: {
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      get_campaign_progress: {
+        Args: never
+        Returns: {
+          campaign_id: string
+          donation_count: number
+          raised_cad: number
+        }[]
+      }
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
+      app_role: "admin"
       assistance_type:
         | "mobility_equipment"
         | "wheelchairs_assistive_devices"
@@ -96,6 +365,15 @@ export type Database = {
         | "essential_living_expenses"
         | "daily_support"
         | "other"
+      campaign_document_kind:
+        | "consent_form"
+        | "identity"
+        | "quote_or_invoice"
+        | "assessment"
+        | "other"
+      campaign_kind: "individual" | "community_appeal"
+      campaign_status: "draft" | "published" | "closed"
+      donation_status: "pending" | "completed" | "refunded" | "failed"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -223,6 +501,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
+      app_role: ["admin"],
       assistance_type: [
         "mobility_equipment",
         "wheelchairs_assistive_devices",
@@ -232,6 +511,16 @@ export const Constants = {
         "daily_support",
         "other",
       ],
+      campaign_document_kind: [
+        "consent_form",
+        "identity",
+        "quote_or_invoice",
+        "assessment",
+        "other",
+      ],
+      campaign_kind: ["individual", "community_appeal"],
+      campaign_status: ["draft", "published", "closed"],
+      donation_status: ["pending", "completed", "refunded", "failed"],
     },
   },
 } as const

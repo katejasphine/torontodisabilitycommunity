@@ -2,9 +2,10 @@
 
 - [x] Design system, 12 public pages, both uploaded photos placed
 - [x] Request Assistance + Contact forms saved privately
-- [x] Honest zero stats and clearly labelled sample campaigns
-- [ ] Online donations (needs user to confirm payment provider; card data never stored)
-- [ ] Admin dashboard: sign-in, roles, review requests, approve campaigns, audit trail
-- [ ] Document/photo uploads on assistance requests (private storage)
+- [x] Honest zero stats; sample campaigns removed
+- [ ] Campaign system: public campaign pages, progress from confirmed payments, admin sign-in
+- [ ] Admin: verified beneficiary details, documented consent, private photo/document uploads, publish rules
+- [ ] Publish Mobility + Accessible Home as general community appeals (no named person, earlier photos)
+- [ ] Slack message for every new contact message and assistance request
+- [ ] Online donations via Stripe (blocked: workspace needs a paid plan)
 - [ ] Owner email alerts for new requests (needs verified email domain)
-- [ ] Replace placeholders with organizer's verified details (contact email, founder story, fund goal)
