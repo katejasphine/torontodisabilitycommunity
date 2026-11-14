@@ -15,7 +15,7 @@ function safeRedirect(value: unknown): string {
 
 export const Route = createFileRoute("/auth")({
   validateSearch: (search: Record<string, unknown>): { redirect?: string } =>
-    typeof search.redirect === "string" ? { redirect: safeRedirect(search.redirect) } : {},
+    typeof search["redirect"] === "string" ? { redirect: safeRedirect(search["redirect"]) } : {},
   head: () => ({
     meta: [
       { title: "Organizer sign-in — Toronto Disability Community Support" },
@@ -33,7 +33,7 @@ export const Route = createFileRoute("/auth")({
 function AuthPage() {
   const search = Route.useSearch();
   const navigate = useNavigate();
-  const target = safeRedirect(search.redirect);
+  const target = safeRedirect(search["redirect"]);
   const [mode, setMode] = useState<"signin" | "signup">("signin");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

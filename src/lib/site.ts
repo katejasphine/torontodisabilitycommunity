@@ -44,6 +44,7 @@ export const FOOTER_NAV = [
   { to: "/contact", label: "Contact Us" },
   { to: "/privacy", label: "Privacy Policy" },
   { to: "/terms", label: "Terms and Conditions" },
+  { to: "/auth", label: "Organizer sign-in" },
 ] as const;
 
 /**
@@ -58,3 +59,43 @@ export const IMPACT_STATS = [
 ] as const;
 
 export const GENERAL_FUND = { goal: 25000, raised: 1000, supporters: 50 };
+
+/**
+ * Illustrative stories: they describe common experiences, not verified individuals.
+ * Keep the "Illustrative story" label unless a real person has given written consent.
+ */
+export const ILLUSTRATIVE_STORIES = [
+  {
+    id: "daniel",
+    title: "Daniel's Story: Every Step Towards Independence Matters",
+    campaignSlug: "wheelchair-for-greater-independence",
+    campaignLabel: "Support the mobility appeal",
+    photoAlt: "A smiling young man in a manual wheelchair on a tree-lined path in a sunny park.",
+    paragraphs: [
+      "Sometimes, the things many people take for granted can become the biggest challenges in someone else's life.",
+      "Daniel is a young man living with a mobility disability who dreams of enjoying greater independence and participating more fully in his community.",
+      "For Daniel, everyday activities such as travelling to appointments, visiting friends, and accessing public spaces can require additional planning and support. Having suitable mobility equipment could make a meaningful difference in his daily life.",
+      "His story represents the experiences of many people who face barriers not because of their abilities or ambitions, but because they lack access to the resources and support they need.",
+      "Through our Mobility and Independence Campaign, we hope to demonstrate how community support can help someone access suitable mobility equipment and opportunities for greater independence.",
+    ],
+    message: "Every person deserves the opportunity to move through life with dignity, confidence, and freedom.",
+    closing: "Together, we can help make that possible.",
+  },
+  {
+    id: "sarah",
+    title: "Sarah's Story: Everyone Deserves a Safe Place to Call Home",
+    campaignSlug: "safer-more-accessible-home",
+    campaignLabel: "Support the accessible home appeal",
+    photoAlt: "A woman in a wheelchair in a bright, open apartment with a ramp to the balcony and grab bars on the doors.",
+    paragraphs: [
+      "A home should be a place of comfort, safety, and independence. But for people living with disabilities, an inaccessible home can make everyday life unnecessarily difficult.",
+      "Sarah is a woman living with a physical disability who dreams of having a home that better supports her everyday needs.",
+      "Simple features such as accessible entryways, bathroom safety equipment, support rails, and enough space to move around comfortably can make a tremendous difference.",
+      "Unfortunately, accessibility improvements can be expensive, leaving many individuals struggling to create an environment where they feel safe and independent.",
+      "Our Housing Accessibility Campaign highlights the importance of helping people access the modifications and equipment they need to live more comfortably.",
+      "We believe that disability should never prevent anyone from feeling secure and welcome in their own home.",
+    ],
+    message: "A safe and accessible home is not a luxury. It is an important part of living with dignity.",
+    closing: "Together, we can help build a community where everyone belongs.",
+  },
+] as const;

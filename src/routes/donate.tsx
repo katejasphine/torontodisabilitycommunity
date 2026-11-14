@@ -24,7 +24,7 @@ export const Route = createFileRoute("/donate")({
     ],
   }),
   validateSearch: (search: Record<string, unknown>): { campaign?: string } =>
-    typeof search.campaign === "string" && /^[a-z0-9-]{1,80}$/.test(search.campaign) ? { campaign: search.campaign } : {},
+    typeof search["campaign"] === "string" && /^[a-z0-9-]{1,80}$/.test(search["campaign"]) ? { campaign: search["campaign"] } : {},
   loader: ({ context }) => context.queryClient.ensureQueryData(campaignsQuery()),
   component: Donate,
 });

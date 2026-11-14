@@ -26,6 +26,9 @@ import { Route as UpdatesRouteImport } from './routes/updates'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as CampaignsIndexRouteImport } from './routes/campaigns.index'
 import { Route as CampaignsSlugRouteImport } from './routes/campaigns.$slug'
+import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
+import { Route as AuthenticatedAdminCampaignsIdRouteImport } from './routes/_authenticated/admin.campaigns.$id'
+import { Route as ApiPublicCampaignPhotoSlugRouteImport } from './routes/api/public/campaign-photo.$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -111,6 +114,23 @@ const CampaignsSlugRoute = CampaignsSlugRouteImport.update({
   path: '/$slug',
   getParentRoute: () => CampaignsRoute,
 } as any)
+const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AuthenticatedAdminRoute,
+} as any)
+const AuthenticatedAdminCampaignsIdRoute =
+  AuthenticatedAdminCampaignsIdRouteImport.update({
+    id: '/campaigns/$id',
+    path: '/campaigns/$id',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const ApiPublicCampaignPhotoSlugRoute =
+  ApiPublicCampaignPhotoSlugRouteImport.update({
+    id: '/api/public/campaign-photo/$slug',
+    path: '/api/public/campaign-photo/$slug',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -126,9 +146,12 @@ export interface FileRoutesByFullPath {
   '/terms': typeof TermsRoute
   '/transparency': typeof TransparencyRoute
   '/updates': typeof UpdatesRoute
-  '/admin': typeof AuthenticatedAdminRoute
+  '/admin': typeof AuthenticatedAdminRouteWithChildren
   '/campaigns/$slug': typeof CampaignsSlugRoute
   '/campaigns/': typeof CampaignsIndexRoute
+  '/admin/': typeof AuthenticatedAdminIndexRoute
+  '/admin/campaigns/$id': typeof AuthenticatedAdminCampaignsIdRoute
+  '/api/public/campaign-photo/$slug': typeof ApiPublicCampaignPhotoSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -143,9 +166,11 @@ export interface FileRoutesByTo {
   '/terms': typeof TermsRoute
   '/transparency': typeof TransparencyRoute
   '/updates': typeof UpdatesRoute
-  '/admin': typeof AuthenticatedAdminRoute
   '/campaigns/$slug': typeof CampaignsSlugRoute
   '/campaigns': typeof CampaignsIndexRoute
+  '/admin': typeof AuthenticatedAdminIndexRoute
+  '/admin/campaigns/$id': typeof AuthenticatedAdminCampaignsIdRoute
+  '/api/public/campaign-photo/$slug': typeof ApiPublicCampaignPhotoSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -163,9 +188,12 @@ export interface FileRoutesById {
   '/terms': typeof TermsRoute
   '/transparency': typeof TransparencyRoute
   '/updates': typeof UpdatesRoute
-  '/_authenticated/admin': typeof AuthenticatedAdminRoute
+  '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
   '/campaigns/$slug': typeof CampaignsSlugRoute
   '/campaigns/': typeof CampaignsIndexRoute
+  '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
+  '/_authenticated/admin/campaigns/$id': typeof AuthenticatedAdminCampaignsIdRoute
+  '/api/public/campaign-photo/$slug': typeof ApiPublicCampaignPhotoSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -186,6 +214,9 @@ export interface FileRouteTypes {
     | '/admin'
     | '/campaigns/$slug'
     | '/campaigns/'
+    | '/admin/'
+    | '/admin/campaigns/$id'
+    | '/api/public/campaign-photo/$slug'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -200,9 +231,11 @@ export interface FileRouteTypes {
     | '/terms'
     | '/transparency'
     | '/updates'
-    | '/admin'
     | '/campaigns/$slug'
     | '/campaigns'
+    | '/admin'
+    | '/admin/campaigns/$id'
+    | '/api/public/campaign-photo/$slug'
   id:
     | '__root__'
     | '/'
@@ -222,6 +255,9 @@ export interface FileRouteTypes {
     | '/_authenticated/admin'
     | '/campaigns/$slug'
     | '/campaigns/'
+    | '/_authenticated/admin/'
+    | '/_authenticated/admin/campaigns/$id'
+    | '/api/public/campaign-photo/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -239,6 +275,7 @@ export interface RootRouteChildren {
   TermsRoute: typeof TermsRoute
   TransparencyRoute: typeof TransparencyRoute
   UpdatesRoute: typeof UpdatesRoute
+  ApiPublicCampaignPhotoSlugRoute: typeof ApiPublicCampaignPhotoSlugRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -362,15 +399,49 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CampaignsSlugRouteImport
       parentRoute: typeof CampaignsRoute
     }
+    '/_authenticated/admin/': {
+      id: '/_authenticated/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AuthenticatedAdminIndexRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/campaigns/$id': {
+      id: '/_authenticated/admin/campaigns/$id'
+      path: '/campaigns/$id'
+      fullPath: '/admin/campaigns/$id'
+      preLoaderRoute: typeof AuthenticatedAdminCampaignsIdRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/api/public/campaign-photo/$slug': {
+      id: '/api/public/campaign-photo/$slug'
+      path: '/api/public/campaign-photo/$slug'
+      fullPath: '/api/public/campaign-photo/$slug'
+      preLoaderRoute: typeof ApiPublicCampaignPhotoSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
+interface AuthenticatedAdminRouteChildren {
+  AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
+  AuthenticatedAdminCampaignsIdRoute: typeof AuthenticatedAdminCampaignsIdRoute
+}
+
+const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
+  AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
+  AuthenticatedAdminCampaignsIdRoute: AuthenticatedAdminCampaignsIdRoute,
+}
+
+const AuthenticatedAdminRouteWithChildren =
+  AuthenticatedAdminRoute._addFileChildren(AuthenticatedAdminRouteChildren)
+
 interface AuthenticatedRouteRouteChildren {
-  AuthenticatedAdminRoute: typeof AuthenticatedAdminRoute
+  AuthenticatedAdminRoute: typeof AuthenticatedAdminRouteWithChildren
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
-  AuthenticatedAdminRoute: AuthenticatedAdminRoute,
+  AuthenticatedAdminRoute: AuthenticatedAdminRouteWithChildren,
 }
 
 const AuthenticatedRouteRouteWithChildren =
@@ -405,6 +476,7 @@ const rootRouteChildren: RootRouteChildren = {
   TermsRoute: TermsRoute,
   TransparencyRoute: TransparencyRoute,
   UpdatesRoute: UpdatesRoute,
+  ApiPublicCampaignPhotoSlugRoute: ApiPublicCampaignPhotoSlugRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

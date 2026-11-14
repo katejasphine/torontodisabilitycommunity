@@ -30,6 +30,9 @@ use the editor.
 <!-- LOVABLE:END -->
 
 ## Project rules
-- Site content constants (nav, sample campaigns, impact figures) live in `src/lib/site.ts`; donation rules in `src/lib/donation.ts` with tests beside it — keeps numbers in one auditable place.
+- Site content constants (nav, impact figures) live in `src/lib/site.ts`; donation rules in `src/lib/donation.ts`, campaign publish/count rules in `src/lib/campaigns.ts` (mirrored by a database trigger), with tests beside them — keeps numbers in one auditable place.
 - Public form submissions insert directly from the browser into insert-only tables (no anon select) — submissions stay private to admins.
 - Payments must use a hosted payment provider checkout; never collect or store card numbers in app code or the database.
+- Campaigns live in the database, not code: public pages read only published rows via server functions with the publishable key; organizers edit through RLS-guarded admin pages under `_authenticated/admin` — one source of truth for totals and consent.
+- Campaign photos and beneficiary documents live in private storage buckets; photos become readable only while their campaign is published, documents are admin-only — beneficiary privacy.
+- Donation records are written only by trusted server code after the payment provider confirms; public totals count completed live payments only — prevents inflated or test figures.
