@@ -12,9 +12,10 @@ import { SAMPLE_CAMPAIGNS, findCampaign } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/donate")({
-  validateSearch: (search: Record<string, unknown>): { campaign?: string } => ({
-    campaign: typeof search.campaign === "string" ? search.campaign : undefined,
-  }),
+  validateSearch: (search: Record<string, unknown>): { campaign?: string } => {
+    const c = search["campaign"];
+    return typeof c === "string" ? { campaign: c } : {};
+  },
   head: () => ({
     meta: [
       { title: "Donate — Toronto Disability Community Support" },

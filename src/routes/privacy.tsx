@@ -35,9 +35,16 @@ function Privacy() {
         <p>Assistance requests are visible only to our review team. Nothing about you is published unless you give separate, explicit consent.</p>
         <h2>Visitor analytics</h2>
         <p>
-          This site may use privacy-friendly visitor statistics provided by our hosting platform. It uses no cookies,
-          stores nothing on your device, doesn't keep IP addresses and doesn't identify visitors.
+          Lovable's visitor analytics counts visits to this site. It uses no cookies, stores nothing on your device,
+          doesn't keep IP addresses and doesn't identify visitors. Lovable collects this data for us.{" "}
+          <a href="https://lovable.dev/privacy">Lovable's privacy policy</a> explains how it handles it.
         </p>
+        <p>
+          It records the pages visited, where visitors came from, their country, browser, operating system and device
+          type, how long they stay, how fast pages load, errors, and which buttons and links are clicked. This is
+          recorded for every visitor. Detailed data is kept for 90 days and daily summaries for a year.
+        </p>
+        <p>The site also loads fonts from Google Fonts, which receives your browser's request for the font files.</p>
         <h2>Your choices</h2>
         <p>You can ask us to see, correct or delete your information at any time through our contact page.</p>
       </Prose>

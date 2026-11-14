@@ -23,7 +23,7 @@ export const Route = createFileRoute("/contact")({
 });
 
 function Contact() {
-  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [errors, setErrors] = useState<Partial<Record<string, string>>>({});
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "failed">("idle");
 
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
@@ -32,7 +32,7 @@ function Contact() {
     const fd = new FormData(form);
     const parsed = contactSchema.safeParse(Object.fromEntries(fd));
     if (!parsed.success) {
-      const next: Record<string, string> = {};
+      const next: Partial<Record<string, string>> = {};
       for (const i of parsed.error.issues) next[String(i.path[0])] ??= i.message;
       setErrors(next);
       document.getElementById(`c-${Object.keys(next)[0]}`)?.focus();
@@ -69,8 +69,8 @@ function Contact() {
           <div className="space-y-2">
             <Label htmlFor="c-message" className="text-base font-bold">Message</Label>
             <Textarea id="c-message" name="message" rows={6} maxLength={4000} className="text-base"
-              aria-invalid={errors.message ? true : undefined} aria-describedby={errors.message ? "ce-message" : undefined} />
-            {errors.message && <p id="ce-message" className="font-bold text-destructive">{errors.message}</p>}
+              aria-invalid={errors["message"] ? true : undefined} aria-describedby={errors["message"] ? "ce-message" : undefined} />
+            {errors["message"] && <p id="ce-message" className="font-bold text-destructive">{errors["message"]}</p>}
           </div>
           <div aria-live="polite">
             {status === "sent" && <p className="font-bold text-success">Thank you — your message has been received.</p>}

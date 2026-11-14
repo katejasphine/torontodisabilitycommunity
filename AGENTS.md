@@ -28,3 +28,8 @@ use the editor.
   own key and store it in Secrets.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
 <!-- LOVABLE:END -->
+
+## Project rules
+- Site content constants (nav, sample campaigns, impact figures) live in `src/lib/site.ts`; donation rules in `src/lib/donation.ts` with tests beside it — keeps numbers in one auditable place.
+- Public form submissions insert directly from the browser into insert-only tables (no anon select) — submissions stay private to admins.
+- Payments must use a hosted payment provider checkout; never collect or store card numbers in app code or the database.

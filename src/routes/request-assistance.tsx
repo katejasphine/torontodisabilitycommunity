@@ -24,7 +24,15 @@ export const Route = createFileRoute("/request-assistance")({
   component: RequestAssistance,
 });
 
-type Errors = Partial<Record<string, string>>;
+type FieldName =
+  | "full_name"
+  | "email"
+  | "general_location"
+  | "assistance_type"
+  | "circumstances"
+  | "estimated_need_cad"
+  | "consent_given";
+type Errors = { [K in FieldName]?: string | undefined };
 
 const fieldCls = "min-h-12 text-base";
 
@@ -47,7 +55,7 @@ function RequestAssistance() {
     if (!parsed.success) {
       const next: Errors = {};
       for (const issue of parsed.error.issues) {
-        const k = String(issue.path[0]);
+        const k = String(issue.path[0]) as FieldName;
         if (!next[k]) next[k] = issue.message;
       }
       setErrors(next);
@@ -155,11 +163,11 @@ function RequestAssistance() {
   );
 }
 
-function aria(name: string, errors: Errors) {
+function aria(name: FieldName, errors: Errors) {
   return { "aria-invalid": errors[name] ? true : undefined, "aria-describedby": errors[name] ? `e-${name}` : undefined };
 }
 
-function Field({ id, label, hint, error, children }: { id: string; label: string; hint?: string; error?: string; children: React.ReactNode }) {
+function Field({ id, label, hint, error, children }: { id: string; label: string; hint?: string | undefined; error?: string | undefined; children: React.ReactNode }) {
   return (
     <div className="space-y-2">
       <Label htmlFor={`f-${id}`} className="text-base font-bold">{label}</Label>
