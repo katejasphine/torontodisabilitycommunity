@@ -3,11 +3,9 @@ import { ArrowRight, ShieldCheck, HandHeart, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import heroPhoto from "@/assets/toronto-accessibility-walk.jpg.asset.json";
 import communityPhoto from "@/assets/community-gathering.jpg.asset.json";
-import { CampaignCard } from "@/components/site/CampaignCard";
 import { FundProgress } from "@/components/site/FundProgress";
 import { ImpactStats } from "@/components/site/ImpactStats";
-import { Notice } from "@/components/site/Notice";
-import { GENERAL_FUND, SAMPLE_CAMPAIGNS, SITE } from "@/lib/site";
+import { GENERAL_FUND, SITE } from "@/lib/site";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -108,16 +106,14 @@ function Home() {
             Browse all campaigns <ArrowRight aria-hidden="true" className="size-4" />
           </Link>
         </div>
-        <div className="mt-6">
-          <Notice title="These are sample campaigns">
-            They show how campaigns will look. Real campaigns appear once a request is approved and the person has
-            agreed to share their story.
-          </Notice>
-        </div>
-        <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {SAMPLE_CAMPAIGNS.map((c) => (
-            <CampaignCard key={c.slug} campaign={c} />
-          ))}
+        <div className="mt-8 rounded-3xl border border-border bg-card p-8 shadow-card">
+          <p className="text-lg text-muted-foreground">
+            No individual campaigns are live yet. When a request is approved and the person agrees to share their
+            story, their campaign will appear here — always with their permission.
+          </p>
+          <Button asChild variant="outline" className="mt-6">
+            <Link to="/request-assistance">Request assistance for yourself or someone you know</Link>
+          </Button>
         </div>
       </section>
 

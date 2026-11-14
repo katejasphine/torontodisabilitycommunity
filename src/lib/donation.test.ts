@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { PRESET_AMOUNTS_CAD, parseDonationAmount, progressPercent } from "./donation";
-import { IMPACT_STATS, SAMPLE_CAMPAIGNS } from "./site";
+import { IMPACT_STATS } from "./site";
 
 describe("donation rules", () => {
   it("offers the preset amounts $10, $25, $50, $100 and $250 CAD", () => {
@@ -25,9 +25,5 @@ describe("donation rules", () => {
 describe("no invented figures", () => {
   it("shows zero for every impact statistic until real data exists", () => {
     expect(IMPACT_STATS.every((s) => s.value === 0)).toBe(true);
-  });
-
-  it("sample campaigns show no money raised and no supporters", () => {
-    expect(SAMPLE_CAMPAIGNS.every((c) => c.raised === 0 && c.supporters === 0)).toBe(true);
   });
 });

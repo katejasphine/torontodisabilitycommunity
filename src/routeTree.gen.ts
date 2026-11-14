@@ -22,7 +22,6 @@ import { Route as TermsRouteImport } from './routes/terms'
 import { Route as TransparencyRouteImport } from './routes/transparency'
 import { Route as UpdatesRouteImport } from './routes/updates'
 import { Route as CampaignsIndexRouteImport } from './routes/campaigns.index'
-import { Route as CampaignsSlugRouteImport } from './routes/campaigns.$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -89,11 +88,6 @@ const CampaignsIndexRoute = CampaignsIndexRouteImport.update({
   path: '/',
   getParentRoute: () => CampaignsRoute,
 } as any)
-const CampaignsSlugRoute = CampaignsSlugRouteImport.update({
-  id: '/$slug',
-  path: '/$slug',
-  getParentRoute: () => CampaignsRoute,
-} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -108,7 +102,6 @@ export interface FileRoutesByFullPath {
   '/terms': typeof TermsRoute
   '/transparency': typeof TransparencyRoute
   '/updates': typeof UpdatesRoute
-  '/campaigns/$slug': typeof CampaignsSlugRoute
   '/campaigns/': typeof CampaignsIndexRoute
 }
 export interface FileRoutesByTo {
@@ -123,7 +116,6 @@ export interface FileRoutesByTo {
   '/terms': typeof TermsRoute
   '/transparency': typeof TransparencyRoute
   '/updates': typeof UpdatesRoute
-  '/campaigns/$slug': typeof CampaignsSlugRoute
   '/campaigns': typeof CampaignsIndexRoute
 }
 export interface FileRoutesById {
@@ -140,7 +132,6 @@ export interface FileRoutesById {
   '/terms': typeof TermsRoute
   '/transparency': typeof TransparencyRoute
   '/updates': typeof UpdatesRoute
-  '/campaigns/$slug': typeof CampaignsSlugRoute
   '/campaigns/': typeof CampaignsIndexRoute
 }
 export interface FileRouteTypes {
@@ -158,7 +149,6 @@ export interface FileRouteTypes {
     | '/terms'
     | '/transparency'
     | '/updates'
-    | '/campaigns/$slug'
     | '/campaigns/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -173,7 +163,6 @@ export interface FileRouteTypes {
     | '/terms'
     | '/transparency'
     | '/updates'
-    | '/campaigns/$slug'
     | '/campaigns'
   id:
     | '__root__'
@@ -189,7 +178,6 @@ export interface FileRouteTypes {
     | '/terms'
     | '/transparency'
     | '/updates'
-    | '/campaigns/$slug'
     | '/campaigns/'
   fileRoutesById: FileRoutesById
 }
@@ -301,23 +289,14 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CampaignsIndexRouteImport
       parentRoute: typeof CampaignsRoute
     }
-    '/campaigns/$slug': {
-      id: '/campaigns/$slug'
-      path: '/$slug'
-      fullPath: '/campaigns/$slug'
-      preLoaderRoute: typeof CampaignsSlugRouteImport
-      parentRoute: typeof CampaignsRoute
-    }
   }
 }
 
 interface CampaignsRouteChildren {
-  CampaignsSlugRoute: typeof CampaignsSlugRoute
   CampaignsIndexRoute: typeof CampaignsIndexRoute
 }
 
 const CampaignsRouteChildren: CampaignsRouteChildren = {
-  CampaignsSlugRoute: CampaignsSlugRoute,
   CampaignsIndexRoute: CampaignsIndexRoute,
 }
 

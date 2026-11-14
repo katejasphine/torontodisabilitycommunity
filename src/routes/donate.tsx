@@ -8,14 +8,9 @@ import { Textarea } from "@/components/ui/textarea";
 import { Notice } from "@/components/site/Notice";
 import { PageHeader } from "@/components/site/PageHeader";
 import { PRESET_AMOUNTS_CAD, formatCAD, parseDonationAmount } from "@/lib/donation";
-import { SAMPLE_CAMPAIGNS, findCampaign } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/donate")({
-  validateSearch: (search: Record<string, unknown>): { campaign?: string } => {
-    const c = search["campaign"];
-    return typeof c === "string" ? { campaign: c } : {};
-  },
   head: () => ({
     meta: [
       { title: "Donate — Toronto Disability Community Support" },
@@ -32,17 +27,12 @@ export const Route = createFileRoute("/donate")({
 type Choice = number | "custom";
 
 function Donate() {
-  const { campaign: campaignSlug } = Route.useSearch();
-  const initialFund = campaignSlug && findCampaign(campaignSlug) ? campaignSlug : "general";
-  const [fund, setFund] = useState(initialFund);
   const [choice, setChoice] = useState<Choice>(50);
   const [custom, setCustom] = useState("");
   const [anonymous, setAnonymous] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [notReady, setNotReady] = useState(false);
-  const ids = { fund: useId(), custom: useId(), name: useId(), email: useId(), msg: useId(), err: useId() };
-
-  const selectedCampaign = fund === "general" ? undefined : findCampaign(fund);
+  const ids = { custom: useId(), name: useId(), email: useId(), msg: useId(), err: useId() };
 
   function onSubmit(e: FormEvent) {
     e.preventDefault();
@@ -67,22 +57,10 @@ function Donate() {
       <section className="container-page mt-12 grid gap-10 lg:grid-cols-[1.4fr_1fr]">
         <form onSubmit={onSubmit} noValidate className="space-y-8 rounded-3xl border border-border bg-card p-7 shadow-card md:p-10">
           <div className="space-y-2">
-            <Label htmlFor={ids.fund} className="text-lg font-bold">Where should your gift go?</Label>
-            <select
-              id={ids.fund}
-              value={fund}
-              onChange={(e) => setFund(e.target.value)}
-              className="block min-h-12 w-full rounded-xl border border-input bg-background px-4 text-base"
-            >
-              <option value="general">General Community Fund (shared across approved requests)</option>
-              {SAMPLE_CAMPAIGNS.map((c) => (
-                <option key={c.slug} value={c.slug}>{c.title} (sample)</option>
-              ))}
-            </select>
+            <p className="text-lg font-bold">Where your gift goes</p>
             <p className="text-sm text-muted-foreground">
-              {selectedCampaign
-                ? "Your gift supports only this person's approved need. Individual campaigns are accounted for separately."
-                : "Your gift is pooled and shared across approved assistance requests."}
+              Your gift goes to the General Community Fund, pooled and shared across approved assistance requests.
+              When individual campaigns are published, you'll be able to give to a specific person instead.
             </p>
           </div>
 

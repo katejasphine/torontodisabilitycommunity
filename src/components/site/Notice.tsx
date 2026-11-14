@@ -12,11 +12,3 @@ export function Notice({ title, children }: { title: string; children: ReactNode
     </div>
   );
 }
-
-export function SampleBadge() {
-  return (
-    <span className="inline-flex items-center rounded-full bg-notice px-3 py-1 text-xs font-bold uppercase tracking-wide text-notice-foreground">
-      Sample — not a real campaign
-    </span>
-  );
-}

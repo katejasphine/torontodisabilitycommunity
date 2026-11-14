@@ -1,8 +1,7 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { CampaignCard } from "@/components/site/CampaignCard";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { Notice } from "@/components/site/Notice";
 import { PageHeader } from "@/components/site/PageHeader";
-import { SAMPLE_CAMPAIGNS } from "@/lib/site";
+import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/campaigns/")({
   head: () => ({
@@ -26,13 +25,17 @@ function Campaigns() {
       </PageHeader>
       <section className="container-page mt-12">
         <Notice title="No live campaigns yet">
-          The campaigns below are samples that show the layout. They do not represent real people, and donations
-          cannot be made to them yet.
+          We haven't published any individual campaigns. When a request is approved and the person agrees to share
+          their story, their campaign will appear here. Until then, gifts to the General Community Fund are shared
+          across approved requests.
         </Notice>
-        <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {SAMPLE_CAMPAIGNS.map((c) => (
-            <CampaignCard key={c.slug} campaign={c} />
-          ))}
+        <div className="mt-8 flex flex-wrap gap-3">
+          <Button asChild size="lg">
+            <Link to="/donate">Give to the Community Fund</Link>
+          </Button>
+          <Button asChild size="lg" variant="outline">
+            <Link to="/request-assistance">Request Assistance</Link>
+          </Button>
         </div>
       </section>
     </>
