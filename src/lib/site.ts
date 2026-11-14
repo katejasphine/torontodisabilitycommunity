@@ -9,6 +9,21 @@ export const SITE = {
   contactEmail: "hello@example.org",
 };
 
+export const FOUNDER_STORY = {
+  heading: "The Story Behind Our Founder",
+  name: "Kate Jasphine",
+  role: "Founder, Toronto Disability Community Support",
+  paragraphs: [
+    "My name is Kate Jasphine, and I believe that everyone deserves to live with dignity, independence, and a sense of belonging, regardless of their physical abilities or personal circumstances.",
+    "The idea behind Toronto Disability Community Support grew from a simple belief: no one living with a disability should have to face life's challenges alone. Too many people struggle to access essential resources, mobility equipment, transportation, food, housing support, and opportunities to build a better future.",
+    "I wanted to help create a community where people could come together, share resources, support one another, and make a meaningful difference.",
+    "That vision inspired me to start Toronto Disability Community Support — a community-led initiative focused on connecting individuals with assistance, raising awareness, and bringing hope to people who need support.",
+    "Our mission is bigger than fundraising. It is about listening, understanding, creating opportunities, and reminding people that their lives matter.",
+    "I believe that when a community stands together, meaningful change becomes possible. Every donation, volunteer, shared opportunity, and act of kindness can help someone take another step toward independence.",
+    "Together We Rise. Together We Support.",
+  ],
+};
+
 export const MAIN_NAV = [
   { to: "/about", label: "About" },
   { to: "/campaigns", label: "Campaigns" },
@@ -68,7 +83,7 @@ export const SAMPLE_CAMPAIGNS: Campaign[] = [
   {
     slug: "founder-mobility-and-daily-living",
     title: "Founder's mobility and daily living support",
-    beneficiary: "Founder (name to be confirmed)",
+    beneficiary: "Kate Jasphine (Founder)",
     location: "Toronto, ON",
     category: "Disability-related daily support",
     goal: 8000,
@@ -77,7 +92,7 @@ export const SAMPLE_CAMPAIGNS: Campaign[] = [
     summary:
       "Placeholder for the founder's own campaign. The real story and goal will be added once the founder supplies verified details.",
     story: [
-      "This is a placeholder. The founder of Toronto Disability Community Support also lives with a disability, and this space is reserved for their personal campaign.",
+      "This is a placeholder. This space is reserved for the personal campaign of Kate Jasphine, founder of Toronto Disability Community Support.",
       "The final story, photos and fundraising goal will appear here only after they are written and approved by the founder.",
     ],
     updates: [],

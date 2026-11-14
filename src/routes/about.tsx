@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import communityPhoto from "@/assets/community-gathering.jpg.asset.json";
 import { Button } from "@/components/ui/button";
 import { PageHeader } from "@/components/site/PageHeader";
-import { SITE } from "@/lib/site";
+import { FOUNDER_STORY, SITE } from "@/lib/site";
 
 export const Route = createFileRoute("/about")({
   head: () => ({
@@ -28,17 +28,25 @@ function About() {
         <div className="space-y-5 text-lg">
           <h2 className="text-3xl font-semibold">Why we started</h2>
           <p>
-            Toronto Disability Community Support was started by a Torontonian who also lives with a disability and
-            knows first-hand how quickly costs add up — a wheelchair repair, an accessible ride, a ramp at the front
-            door.
+            Toronto Disability Community Support grew from a simple belief: no one living with a disability should
+            have to face life's challenges alone — whether that's a wheelchair repair, an accessible ride, or a ramp
+            at the front door.
           </p>
           <p>
             We bring neighbours together to help with those costs directly. People living with disabilities can ask
             for support, and anyone can give to a specific person or to the shared community fund.
           </p>
-          <p className="rounded-2xl bg-paper p-5 text-base text-muted-foreground">
-            The founder's personal story will be added here once they have written and approved it.
-          </p>
+          <figure className="space-y-4 rounded-2xl bg-paper p-6 text-base">
+            <h3 className="text-xl font-semibold">{FOUNDER_STORY.heading}</h3>
+            {FOUNDER_STORY.paragraphs.map((paragraph) => (
+              <p key={paragraph.slice(0, 24)}>{paragraph}</p>
+            ))}
+            <figcaption className="pt-2 text-muted-foreground">
+              — {FOUNDER_STORY.name}
+              <br />
+              {FOUNDER_STORY.role}
+            </figcaption>
+          </figure>
           <h2 className="pt-4 text-3xl font-semibold">What we believe</h2>
           <ul className="space-y-3 [&_li]:ml-6 [&_li]:list-disc">
             <li>People living with disabilities are the experts on their own lives.</li>
