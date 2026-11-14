@@ -10,33 +10,202 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AboutRouteImport } from './routes/about'
+import { Route as CampaignsRouteImport } from './routes/campaigns'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as DonateRouteImport } from './routes/donate'
+import { Route as ImpactRouteImport } from './routes/impact'
+import { Route as PrivacyRouteImport } from './routes/privacy'
+import { Route as RequestAssistanceRouteImport } from './routes/request-assistance'
+import { Route as StoriesRouteImport } from './routes/stories'
+import { Route as TermsRouteImport } from './routes/terms'
+import { Route as TransparencyRouteImport } from './routes/transparency'
+import { Route as UpdatesRouteImport } from './routes/updates'
+import { Route as CampaignsIndexRouteImport } from './routes/campaigns.index'
+import { Route as CampaignsSlugRouteImport } from './routes/campaigns.$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CampaignsRoute = CampaignsRouteImport.update({
+  id: '/campaigns',
+  path: '/campaigns',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DonateRoute = DonateRouteImport.update({
+  id: '/donate',
+  path: '/donate',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ImpactRoute = ImpactRouteImport.update({
+  id: '/impact',
+  path: '/impact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RequestAssistanceRoute = RequestAssistanceRouteImport.update({
+  id: '/request-assistance',
+  path: '/request-assistance',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StoriesRoute = StoriesRouteImport.update({
+  id: '/stories',
+  path: '/stories',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TermsRoute = TermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TransparencyRoute = TransparencyRouteImport.update({
+  id: '/transparency',
+  path: '/transparency',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const UpdatesRoute = UpdatesRouteImport.update({
+  id: '/updates',
+  path: '/updates',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CampaignsIndexRoute = CampaignsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => CampaignsRoute,
+} as any)
+const CampaignsSlugRoute = CampaignsSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => CampaignsRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/campaigns': typeof CampaignsRouteWithChildren
+  '/contact': typeof ContactRoute
+  '/donate': typeof DonateRoute
+  '/impact': typeof ImpactRoute
+  '/privacy': typeof PrivacyRoute
+  '/request-assistance': typeof RequestAssistanceRoute
+  '/stories': typeof StoriesRoute
+  '/terms': typeof TermsRoute
+  '/transparency': typeof TransparencyRoute
+  '/updates': typeof UpdatesRoute
+  '/campaigns/$slug': typeof CampaignsSlugRoute
+  '/campaigns/': typeof CampaignsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/contact': typeof ContactRoute
+  '/donate': typeof DonateRoute
+  '/impact': typeof ImpactRoute
+  '/privacy': typeof PrivacyRoute
+  '/request-assistance': typeof RequestAssistanceRoute
+  '/stories': typeof StoriesRoute
+  '/terms': typeof TermsRoute
+  '/transparency': typeof TransparencyRoute
+  '/updates': typeof UpdatesRoute
+  '/campaigns/$slug': typeof CampaignsSlugRoute
+  '/campaigns': typeof CampaignsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/campaigns': typeof CampaignsRouteWithChildren
+  '/contact': typeof ContactRoute
+  '/donate': typeof DonateRoute
+  '/impact': typeof ImpactRoute
+  '/privacy': typeof PrivacyRoute
+  '/request-assistance': typeof RequestAssistanceRoute
+  '/stories': typeof StoriesRoute
+  '/terms': typeof TermsRoute
+  '/transparency': typeof TransparencyRoute
+  '/updates': typeof UpdatesRoute
+  '/campaigns/$slug': typeof CampaignsSlugRoute
+  '/campaigns/': typeof CampaignsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/campaigns'
+    | '/contact'
+    | '/donate'
+    | '/impact'
+    | '/privacy'
+    | '/request-assistance'
+    | '/stories'
+    | '/terms'
+    | '/transparency'
+    | '/updates'
+    | '/campaigns/$slug'
+    | '/campaigns/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/about'
+    | '/contact'
+    | '/donate'
+    | '/impact'
+    | '/privacy'
+    | '/request-assistance'
+    | '/stories'
+    | '/terms'
+    | '/transparency'
+    | '/updates'
+    | '/campaigns/$slug'
+    | '/campaigns'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/campaigns'
+    | '/contact'
+    | '/donate'
+    | '/impact'
+    | '/privacy'
+    | '/request-assistance'
+    | '/stories'
+    | '/terms'
+    | '/transparency'
+    | '/updates'
+    | '/campaigns/$slug'
+    | '/campaigns/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AboutRoute: typeof AboutRoute
+  CampaignsRoute: typeof CampaignsRouteWithChildren
+  ContactRoute: typeof ContactRoute
+  DonateRoute: typeof DonateRoute
+  ImpactRoute: typeof ImpactRoute
+  PrivacyRoute: typeof PrivacyRoute
+  RequestAssistanceRoute: typeof RequestAssistanceRoute
+  StoriesRoute: typeof StoriesRoute
+  TermsRoute: typeof TermsRoute
+  TransparencyRoute: typeof TransparencyRoute
+  UpdatesRoute: typeof UpdatesRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +217,127 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/campaigns': {
+      id: '/campaigns'
+      path: '/campaigns'
+      fullPath: '/campaigns'
+      preLoaderRoute: typeof CampaignsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/donate': {
+      id: '/donate'
+      path: '/donate'
+      fullPath: '/donate'
+      preLoaderRoute: typeof DonateRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/impact': {
+      id: '/impact'
+      path: '/impact'
+      fullPath: '/impact'
+      preLoaderRoute: typeof ImpactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/request-assistance': {
+      id: '/request-assistance'
+      path: '/request-assistance'
+      fullPath: '/request-assistance'
+      preLoaderRoute: typeof RequestAssistanceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/stories': {
+      id: '/stories'
+      path: '/stories'
+      fullPath: '/stories'
+      preLoaderRoute: typeof StoriesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/terms': {
+      id: '/terms'
+      path: '/terms'
+      fullPath: '/terms'
+      preLoaderRoute: typeof TermsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/transparency': {
+      id: '/transparency'
+      path: '/transparency'
+      fullPath: '/transparency'
+      preLoaderRoute: typeof TransparencyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/updates': {
+      id: '/updates'
+      path: '/updates'
+      fullPath: '/updates'
+      preLoaderRoute: typeof UpdatesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/campaigns/': {
+      id: '/campaigns/'
+      path: '/'
+      fullPath: '/campaigns/'
+      preLoaderRoute: typeof CampaignsIndexRouteImport
+      parentRoute: typeof CampaignsRoute
+    }
+    '/campaigns/$slug': {
+      id: '/campaigns/$slug'
+      path: '/$slug'
+      fullPath: '/campaigns/$slug'
+      preLoaderRoute: typeof CampaignsSlugRouteImport
+      parentRoute: typeof CampaignsRoute
+    }
   }
 }
 
+interface CampaignsRouteChildren {
+  CampaignsSlugRoute: typeof CampaignsSlugRoute
+  CampaignsIndexRoute: typeof CampaignsIndexRoute
+}
+
+const CampaignsRouteChildren: CampaignsRouteChildren = {
+  CampaignsSlugRoute: CampaignsSlugRoute,
+  CampaignsIndexRoute: CampaignsIndexRoute,
+}
+
+const CampaignsRouteWithChildren = CampaignsRoute._addFileChildren(
+  CampaignsRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AboutRoute: AboutRoute,
+  CampaignsRoute: CampaignsRouteWithChildren,
+  ContactRoute: ContactRoute,
+  DonateRoute: DonateRoute,
+  ImpactRoute: ImpactRoute,
+  PrivacyRoute: PrivacyRoute,
+  RequestAssistanceRoute: RequestAssistanceRoute,
+  StoriesRoute: StoriesRoute,
+  TermsRoute: TermsRoute,
+  TransparencyRoute: TransparencyRoute,
+  UpdatesRoute: UpdatesRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
