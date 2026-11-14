@@ -57,7 +57,7 @@ export const IMPACT_STATS = [
   { label: "Community supporters", value: 0, format: "number" },
 ] as const;
 
-export const GENERAL_FUND = { goal: 25000, raised: 1000, supporters: 0 };
+export const GENERAL_FUND = { goal: 25000, raised: 1000, supporters: 50 };
 
 export type Campaign = {
   slug: string;
