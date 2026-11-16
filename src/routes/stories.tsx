@@ -3,9 +3,9 @@ import danielPhoto from "@/assets/daniel-story-park.png.asset.json";
 import sarahPhoto from "@/assets/sarah-story-accessible-home.png.asset.json";
 import { Button } from "@/components/ui/button";
 import { PageHeader } from "@/components/site/PageHeader";
-import { ILLUSTRATIVE_STORIES } from "@/lib/site";
+import { COMMUNITY_STORIES } from "@/lib/site";
 
-const PHOTOS: Record<(typeof ILLUSTRATIVE_STORIES)[number]["id"], string> = {
+const PHOTOS: Record<(typeof COMMUNITY_STORIES)[number]["id"], string> = {
   daniel: danielPhoto.url,
   sarah: sarahPhoto.url,
 };
@@ -32,7 +32,7 @@ function Stories() {
       </PageHeader>
 
 
-      {ILLUSTRATIVE_STORIES.map((story, i) => (
+      {COMMUNITY_STORIES.map((story, i) => (
         <article
           key={story.id}
           aria-labelledby={`story-${story.id}`}
@@ -45,10 +45,7 @@ function Stories() {
             className={`aspect-[4/3] w-full rounded-3xl object-cover shadow-lift md:sticky md:top-28 ${i % 2 === 1 ? "md:order-2" : ""}`}
           />
           <div>
-            <span className="inline-flex rounded-full bg-secondary px-3 py-1 text-xs font-bold uppercase tracking-[0.12em] text-secondary-foreground">
-              Illustrative story
-            </span>
-            <h2 id={`story-${story.id}`} className="mt-4 text-3xl font-semibold md:text-4xl">{story.title}</h2>
+            <h2 id={`story-${story.id}`} className="text-3xl font-semibold md:text-4xl">{story.title}</h2>
             <div className="mt-5 space-y-4 text-lg leading-relaxed">
               {story.paragraphs.map((p) => <p key={p}>{p}</p>)}
             </div>

@@ -36,3 +36,5 @@ use the editor.
 - Campaigns live in the database, not code: public pages read only published rows via server functions with the publishable key; organizers edit through RLS-guarded admin pages under `_authenticated/admin` — one source of truth for totals and consent.
 - Campaign photos and beneficiary documents live in private storage buckets; photos become readable only while their campaign is published, documents are admin-only — beneficiary privacy.
 - Donation records are written only by trusted server code after the payment provider confirms; public totals count completed live payments only — prevents inflated or test figures.
+- Impact figures and the General Community Fund bar come from the `get_impact_stats` database summary (totals only) combined with organizer-reported offline gifts in `src/lib/impact.ts` — one place to audit every public number.
+- Campaign photos are served only through the `/api/public/campaign-photo/$slug` route after a published-campaign lookup; storage has no public read rule — keeps unpublished photos private.

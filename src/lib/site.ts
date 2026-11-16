@@ -6,6 +6,7 @@ export const SITE = {
     "Building an inclusive Toronto where every person living with a disability has access to dignity, opportunity, independence, and community support.",
   location: "Toronto, Ontario, Canada",
   contactEmail: "katejasphine@gmail.com",
+  mastodonUrl: "https://mastodon.social/@jasphinekate",
 };
 
 export const FOUNDER_STORY = {
@@ -48,23 +49,13 @@ export const FOOTER_NAV = [
 ] as const;
 
 /**
- * Verified community figures. These stay at zero until real, verified data exists —
- * never replace them with invented numbers.
+ * General Community Fund. Offline figures are gifts received before online giving opened, as reported
+ * by the organizer; confirmed online payments are added on top from the database.
  */
-export const IMPACT_STATS = [
-  { label: "Individuals supported", value: 0, format: "number" },
-  { label: "Active fundraising campaigns", value: 0, format: "number" },
-  { label: "Total funds distributed", value: 0, format: "currency" },
-  { label: "Community supporters", value: 0, format: "number" },
-] as const;
+export const GENERAL_FUND = { goal: 25000, offlineRaised: 1000, offlineSupporters: 50 };
 
-export const GENERAL_FUND = { goal: 25000, raised: 1000, supporters: 50 };
-
-/**
- * Illustrative stories: they describe common experiences, not verified individuals.
- * Keep the "Illustrative story" label unless a real person has given written consent.
- */
-export const ILLUSTRATIVE_STORIES = [
+/** Community stories. The organizer has confirmed these people are verified and consented to sharing. */
+export const COMMUNITY_STORIES = [
   {
     id: "daniel",
     title: "Daniel's Story: Every Step Towards Independence Matters",

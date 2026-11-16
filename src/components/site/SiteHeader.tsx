@@ -37,7 +37,7 @@ export function SiteHeader() {
               <li key={item.to}>
                 <Link
                   to={item.to}
-                  className="rounded-full px-3 py-2 text-[0.95rem] text-foreground hover:bg-secondary"
+                  className="whitespace-nowrap rounded-full px-3 py-2 text-[0.95rem] text-foreground hover:bg-secondary"
                   activeProps={{ className: "bg-secondary font-bold", "aria-current": "page" }}
                 >
                   {item.label}
@@ -47,6 +47,13 @@ export function SiteHeader() {
           </ul>
         </nav>
         <div className="hidden items-center gap-2 lg:flex">
+          <a
+            rel="me"
+            href={SITE.mastodonUrl}
+            className="whitespace-nowrap rounded-full px-3 py-2 text-[0.95rem] text-foreground underline-offset-4 hover:bg-secondary hover:underline"
+          >
+            Mastodon
+          </a>
           <Button asChild variant="outline" size="sm">
             <Link to="/request-assistance">Request Assistance</Link>
           </Button>
@@ -85,6 +92,9 @@ export function SiteHeader() {
                   <Link to="/request-assistance" onClick={() => setOpen(false)}>Request Assistance</Link>
                 </Button>
               </div>
+              <a rel="me" href={SITE.mastodonUrl} className="mt-6 block rounded-xl px-4 py-3 text-lg underline underline-offset-4 hover:bg-secondary">
+                Mastodon
+              </a>
             </nav>
           </SheetContent>
         </Sheet>

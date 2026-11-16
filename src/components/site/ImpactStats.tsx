@@ -1,11 +1,12 @@
 import { formatCAD } from "@/lib/donation";
-import { IMPACT_STATS } from "@/lib/site";
+import type { ImpactStat } from "@/lib/impact";
+import { GENERAL_FUND } from "@/lib/site";
 
-export function ImpactStats() {
+export function ImpactStats({ stats }: { stats: ImpactStat[] }) {
   return (
     <div>
       <dl className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-        {IMPACT_STATS.map((s) => (
+        {stats.map((s) => (
           <div key={s.label} className="rounded-3xl border border-border bg-card p-6 shadow-card">
             <dt className="text-sm text-muted-foreground">{s.label}</dt>
             <dd className="mt-2 font-display text-4xl font-semibold text-foreground">
@@ -15,8 +16,9 @@ export function ImpactStats() {
         ))}
       </dl>
       <p className="mt-4 text-sm text-muted-foreground">
-        These figures show verified activity only. They read zero because we are just getting started — they
-        will grow as real, confirmed donations and support are recorded.
+        Updated automatically from our records. Funds raised and supporters include{" "}
+        {formatCAD(GENERAL_FUND.offlineRaised)} from {GENERAL_FUND.offlineSupporters} supporters given before online
+        giving opened, plus every confirmed online payment.
       </p>
     </div>
   );

@@ -5,7 +5,8 @@ import heroPhoto from "@/assets/toronto-accessibility-walk.jpg.asset.json";
 import communityPhoto from "@/assets/community-gathering.jpg.asset.json";
 import { FundProgress } from "@/components/site/FundProgress";
 import { ImpactStats } from "@/components/site/ImpactStats";
-import { GENERAL_FUND, SITE } from "@/lib/site";
+import { SITE } from "@/lib/site";
+import { impactQuery } from "@/lib/impact.functions";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { CampaignCard } from "@/components/site/CampaignCard";
 import { campaignsQuery } from "@/lib/campaigns.functions";
@@ -28,12 +29,17 @@ export const Route = createFileRoute("/")({
       { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
-  loader: ({ context }) => context.queryClient.ensureQueryData(campaignsQuery()),
+  loader: ({ context }) =>
+    Promise.all([
+      context.queryClient.ensureQueryData(campaignsQuery()),
+      context.queryClient.ensureQueryData(impactQuery()),
+    ]),
   component: Home,
 });
 
 function Home() {
   const { data: campaigns } = useSuspenseQuery(campaignsQuery());
+  const { data: impact } = useSuspenseQuery(impactQuery());
   const featured = campaigns.filter((c) => c.status === "published").slice(0, 2);
   return (
     <>
@@ -80,7 +86,7 @@ function Home() {
             </p>
           </div>
           <div className="flex flex-col justify-center">
-            <FundProgress {...GENERAL_FUND} label="General Community Fund" />
+            <FundProgress {...impact.generalFund} label="General Community Fund" />
             <p className="mt-3 text-xs text-muted-foreground">Goal is a placeholder until confirmed by the organizer.</p>
           </div>
         </div>
@@ -153,7 +159,7 @@ function Home() {
       <section aria-labelledby="impact-heading" className="container-page mt-24">
         <h2 id="impact-heading" className="text-3xl font-semibold md:text-4xl">Making a Difference Together</h2>
         <div className="mt-8">
-          <ImpactStats />
+          <ImpactStats stats={impact.stats} />
         </div>
       </section>
 

@@ -347,6 +347,17 @@ export type Database = {
           raised_cad: number
         }[]
       }
+      get_impact_stats: {
+        Args: never
+        Returns: {
+          active_campaigns: number
+          approved_requests: number
+          general_fund_donation_count: number
+          general_fund_raised_cad: number
+          online_donation_count: number
+          online_raised_cad: number
+        }[]
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
