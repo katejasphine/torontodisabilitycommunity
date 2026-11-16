@@ -2,7 +2,6 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import danielPhoto from "@/assets/daniel-story-park.png.asset.json";
 import sarahPhoto from "@/assets/sarah-story-accessible-home.png.asset.json";
 import { Button } from "@/components/ui/button";
-import { Notice } from "@/components/site/Notice";
 import { PageHeader } from "@/components/site/PageHeader";
 import { ILLUSTRATIVE_STORIES } from "@/lib/site";
 
@@ -32,13 +31,6 @@ function Stories() {
         <p>The everyday barriers people living with disabilities face, and how community support can help.</p>
       </PageHeader>
 
-      <div className="container-page mt-10">
-        <Notice title="About these stories">
-          Daniel and Sarah are illustrative stories based on experiences many people in our community share. They
-          are not specific people, and the photos are representative. Stories about real individuals are published
-          only with their written consent.
-        </Notice>
-      </div>
 
       {ILLUSTRATIVE_STORIES.map((story, i) => (
         <article

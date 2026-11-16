@@ -1,0 +1,1 @@
+DROP POLICY IF EXISTS "Photos of published campaigns are viewable" ON storage.objects;

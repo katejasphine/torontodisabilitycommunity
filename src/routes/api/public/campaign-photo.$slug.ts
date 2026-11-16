@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-// Serves a campaign photo only while its campaign is published (enforced by storage policies).
+// Serves a campaign photo only while its campaign is published. The photo bucket has no public
+// read rule; the campaign lookup below (public, published-only) is the gate before the private download.
 export const Route = createFileRoute("/api/public/campaign-photo/$slug")({
   server: {
     handlers: {
@@ -15,7 +16,8 @@ export const Route = createFileRoute("/api/public/campaign-photo/$slug")({
           .in("status", ["published", "closed"])
           .maybeSingle();
         if (!c?.photo_path) return new Response("Not found", { status: 404 });
-        const { data: file, error } = await sb.storage.from("campaign-photos").download(c.photo_path);
+        const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+        const { data: file, error } = await supabaseAdmin.storage.from("campaign-photos").download(c.photo_path);
         if (error || !file) return new Response("Not found", { status: 404 });
         return new Response(file, {
           headers: {
