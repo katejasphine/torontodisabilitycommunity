@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import communityPhoto from "@/assets/community-gathering.jpg.asset.json";
+import founderPhoto from "@/assets/founder-kate-jasphine.jpg.asset.json";
 import { Button } from "@/components/ui/button";
 import { PageHeader } from "@/components/site/PageHeader";
 import { FOUNDER_STORY, SITE } from "@/lib/site";
@@ -38,6 +39,12 @@ function About() {
           </p>
           <figure className="space-y-4 rounded-2xl bg-paper p-6 text-base">
             <h3 className="text-xl font-semibold">{FOUNDER_STORY.heading}</h3>
+            <img
+              src={founderPhoto.url}
+              alt="Portrait of Kate Jasphine, founder of Toronto Disability Community Support"
+              className="w-full max-w-xs rounded-2xl object-cover shadow-lift"
+              loading="lazy"
+            />
             {FOUNDER_STORY.paragraphs.map((paragraph) => (
               <p key={paragraph.slice(0, 24)}>{paragraph}</p>
             ))}
