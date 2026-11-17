@@ -42,7 +42,7 @@ function About() {
             <img
               src={founderPhoto.url}
               alt="Portrait of Kate Jasphine, founder of Toronto Disability Community Support"
-              className="w-full max-w-xs rounded-2xl object-cover shadow-lift"
+              className="mx-auto block w-full max-w-[180px] rounded-2xl object-cover shadow-lift"
               loading="lazy"
             />
             {FOUNDER_STORY.paragraphs.map((paragraph) => (
