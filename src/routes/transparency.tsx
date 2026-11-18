@@ -1,6 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PageHeader } from "@/components/site/PageHeader";
 import { Prose } from "@/components/site/Prose";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { impactQuery } from "@/lib/impact.functions";
+import { formatCAD, progressPercent } from "@/lib/donation";
 
 export const Route = createFileRoute("/transparency")({
   head: () => ({
@@ -13,10 +16,22 @@ export const Route = createFileRoute("/transparency")({
       { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
+  loader: ({ context }) => context.queryClient.ensureQueryData(impactQuery()),
   component: Transparency,
 });
 
 function Transparency() {
+  const { data: impact } = useSuspenseQuery(impactQuery());
+  const fund = impact.generalFund;
+  const activeCampaigns = impact.stats.find((s) => s.label === "Active fundraising campaigns")?.value ?? 0;
+  const rows: [string, string][] = [
+    ["Fundraising target", formatCAD(fund.goal)],
+    ["Total raised", formatCAD(fund.raised)],
+    ["Progress achieved", `${progressPercent(fund.raised, fund.goal)}%`],
+    ["Remaining target", formatCAD(Math.max(0, fund.goal - fund.raised))],
+    ["Verified supporters", String(fund.supporters)],
+    ["Active fundraising campaigns", String(activeCampaigns)],
+  ];
   return (
     <>
       <PageHeader eyebrow="Financial Transparency" title="Where every dollar goes">
@@ -60,8 +75,53 @@ function Transparency() {
           Payment providers charge a small processing fee on each donation. Any other administrative costs will be
           listed here in full. <em>(The organizer will confirm the exact figures before launch.)</em>
         </p>
-        <h2>Financial reports</h2>
-        <p>Reports will be published here regularly once donations begin. No reports have been published yet.</p>
+        <h2 id="financial-report">Financial report</h2>
+        <p>
+          This report updates automatically from our records. The General Community Fund supports people living with
+          disabilities who need help with essential resources, accessible living arrangements and other approved
+          community needs.
+        </p>
+        <div className="overflow-x-auto rounded-2xl border border-border bg-card">
+          <table className="w-full text-left">
+            <caption className="sr-only">General Community Fund — current position</caption>
+            <thead className="bg-secondary text-secondary-foreground">
+              <tr>
+                <th scope="col" className="px-5 py-3 font-bold">Description</th>
+                <th scope="col" className="px-5 py-3 text-right font-bold">Amount / Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {rows.map(([label, value]) => (
+                <tr key={label} className="border-t border-border">
+                  <th scope="row" className="px-5 py-3 font-normal">{label}</th>
+                  <td className="px-5 py-3 text-right font-bold">{value}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <p>
+          <strong>Important accounting note:</strong> the total raised is reported fundraising, not necessarily the
+          current bank balance or the amount available for distribution. Verified spending, payment fees, refunds and
+          payouts have not yet been supplied, so they are not reported here as confirmed figures.
+        </p>
+        <h3>What our reports will cover</h3>
+        <ul>
+          <li>Total contributions received.</li>
+          <li>Fundraising progress.</li>
+          <li>Campaign funding allocations.</li>
+          <li>Financial assistance distributed.</li>
+          <li>Remaining funds available.</li>
+          <li>Relevant administrative and payment-processing costs.</li>
+        </ul>
+        <h2>Our commitment</h2>
+        <p>
+          We believe every contribution deserves accountability. We are committed to providing clear fundraising
+          updates, communicating how funds are allocated and ensuring supporters can understand the impact of their
+          generosity.
+        </p>
+        <p>Your support helps us work towards a more accessible, inclusive and supportive community.</p>
+        <p className="font-bold">Together We Rise. Together We Support.</p>
       </Prose>
     </>
   );
