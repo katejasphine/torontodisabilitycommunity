@@ -358,6 +358,13 @@ export type Database = {
           online_raised_cad: number
         }[]
       }
+      get_recent_gifts: {
+        Args: { _limit?: number }
+        Returns: {
+          amount_cad: number
+          completed_at: string
+        }[]
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]

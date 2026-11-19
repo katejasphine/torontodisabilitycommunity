@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { buildImpactSummary, type ImpactTotals } from "./impact";
+import { buildImpactSummary, toPublicGifts, type ImpactTotals } from "./impact";
 import { GENERAL_FUND } from "./site";
 
 const none: ImpactTotals = {
@@ -33,5 +33,25 @@ describe("impact figures", () => {
     const s = buildImpactSummary({ ...none, active_campaigns: 2, approved_requests: 4 });
     expect(s.stats.find((x) => x.label === "Active fundraising campaigns")?.value).toBe(2);
     expect(s.stats.find((x) => x.label === "Requests approved for support")?.value).toBe(4);
+  });
+});
+
+describe("public gift list", () => {
+  it("shows only the amount and date of each gift, never names or messages", () => {
+    const gifts = toPublicGifts([
+      { amount_cad: "25.00", completed_at: "2026-11-18T10:00:00Z", donor_display_name: "Jane", message: "hi" } as never,
+    ]);
+    expect(gifts).toEqual([{ amount_cad: 25, completed_at: "2026-11-18T10:00:00Z" }]);
+  });
+
+  it("lists the newest gift first and at most 50 gifts", () => {
+    const rows = Array.from({ length: 60 }, (_, i) => ({ amount_cad: 10, completed_at: `2026-11-${String((i % 28) + 1).padStart(2, "0")}T00:00:${String(i % 60).padStart(2, "0")}Z` }));
+    const gifts = toPublicGifts(rows);
+    expect(gifts).toHaveLength(50);
+    expect(gifts[0]!.completed_at >= gifts[49]!.completed_at).toBe(true);
+  });
+
+  it("skips gifts that haven't been confirmed yet", () => {
+    expect(toPublicGifts([{ amount_cad: 10, completed_at: null }])).toEqual([]);
   });
 });

@@ -20,3 +20,15 @@ export const getImpactSummary = createServerFn({ method: "GET" }).handler(async 
 
 export const impactQuery = () =>
   queryOptions({ queryKey: ["impact"], queryFn: () => getImpactSummary(), staleTime: 60_000 });
+
+/** Recent confirmed live gifts for Our Impact — amount and date only. */
+export const getRecentGifts = createServerFn({ method: "GET" }).handler(async () => {
+  const { publicClient } = await import("./supabase-public.server");
+  const { toPublicGifts, RECENT_GIFTS_LIMIT } = await import("./impact");
+  const { data, error } = await publicClient().rpc("get_recent_gifts", { _limit: RECENT_GIFTS_LIMIT });
+  if (error) throw new Error(`Couldn't load recent gifts: ${error.message}`);
+  return toPublicGifts(data ?? []);
+});
+
+export const recentGiftsQuery = () =>
+  queryOptions({ queryKey: ["impact", "gifts"], queryFn: () => getRecentGifts(), staleTime: 60_000 });

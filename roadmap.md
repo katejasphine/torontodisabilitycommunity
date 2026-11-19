@@ -14,5 +14,6 @@
 - [x] Final Privacy Policy, Terms and live Financial Report on Transparency
 - [x] AI-powered "find where to help" suggestions on Stories and Campaigns
 - [ ] Slack message for every new contact message and assistance request
-- [ ] Online donations via Stripe (blocked: workspace needs a paid plan)
+- [ ] Online donations via Paystack (owner has a Paystack secret key)
+- [x] Our Impact: list every confirmed online gift (amount and date only)
 - [ ] Owner email alerts for new requests (needs verified email domain)

@@ -35,3 +35,16 @@ export function buildImpactSummary(t: ImpactTotals, fund = GENERAL_FUND): Impact
     },
   };
 }
+
+/** One confirmed online gift as shown publicly: amount and date only, never who gave it. */
+export type PublicGift = { amount_cad: number; completed_at: string };
+export const RECENT_GIFTS_LIMIT = 50;
+
+/** Keeps only the amount and date of each gift, newest first, capped at the public limit. */
+export function toPublicGifts(rows: { amount_cad: number | string; completed_at: string | null }[]): PublicGift[] {
+  return rows
+    .filter((r): r is { amount_cad: number | string; completed_at: string } => !!r.completed_at)
+    .map((r) => ({ amount_cad: Math.round(Number(r.amount_cad) * 100) / 100, completed_at: r.completed_at }))
+    .sort((a, b) => b.completed_at.localeCompare(a.completed_at))
+    .slice(0, RECENT_GIFTS_LIMIT);
+}
