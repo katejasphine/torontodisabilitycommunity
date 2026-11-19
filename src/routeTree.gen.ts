@@ -21,12 +21,14 @@ import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as RequestAssistanceRouteImport } from './routes/request-assistance'
 import { Route as StoriesRouteImport } from './routes/stories'
 import { Route as TermsRouteImport } from './routes/terms'
+import { Route as ThankYouRouteImport } from './routes/thank-you'
 import { Route as TransparencyRouteImport } from './routes/transparency'
 import { Route as UpdatesRouteImport } from './routes/updates'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as CampaignsIndexRouteImport } from './routes/campaigns.index'
 import { Route as CampaignsSlugRouteImport } from './routes/campaigns.$slug'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
+import { Route as ApiPublicPaystackWebhookRouteImport } from './routes/api/public/paystack-webhook'
 import { Route as AuthenticatedAdminCampaignsIdRouteImport } from './routes/_authenticated/admin.campaigns.$id'
 import { Route as ApiPublicCampaignPhotoSlugRouteImport } from './routes/api/public/campaign-photo.$slug'
 
@@ -89,6 +91,11 @@ const TermsRoute = TermsRouteImport.update({
   path: '/terms',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ThankYouRoute = ThankYouRouteImport.update({
+  id: '/thank-you',
+  path: '/thank-you',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TransparencyRoute = TransparencyRouteImport.update({
   id: '/transparency',
   path: '/transparency',
@@ -119,6 +126,12 @@ const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AuthenticatedAdminRoute,
 } as any)
+const ApiPublicPaystackWebhookRoute =
+  ApiPublicPaystackWebhookRouteImport.update({
+    id: '/api/public/paystack-webhook',
+    path: '/api/public/paystack-webhook',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const AuthenticatedAdminCampaignsIdRoute =
   AuthenticatedAdminCampaignsIdRouteImport.update({
     id: '/campaigns/$id',
@@ -144,11 +157,13 @@ export interface FileRoutesByFullPath {
   '/request-assistance': typeof RequestAssistanceRoute
   '/stories': typeof StoriesRoute
   '/terms': typeof TermsRoute
+  '/thank-you': typeof ThankYouRoute
   '/transparency': typeof TransparencyRoute
   '/updates': typeof UpdatesRoute
   '/admin': typeof AuthenticatedAdminRouteWithChildren
   '/campaigns/$slug': typeof CampaignsSlugRoute
   '/campaigns/': typeof CampaignsIndexRoute
+  '/api/public/paystack-webhook': typeof ApiPublicPaystackWebhookRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
   '/admin/campaigns/$id': typeof AuthenticatedAdminCampaignsIdRoute
   '/api/public/campaign-photo/$slug': typeof ApiPublicCampaignPhotoSlugRoute
@@ -164,10 +179,12 @@ export interface FileRoutesByTo {
   '/request-assistance': typeof RequestAssistanceRoute
   '/stories': typeof StoriesRoute
   '/terms': typeof TermsRoute
+  '/thank-you': typeof ThankYouRoute
   '/transparency': typeof TransparencyRoute
   '/updates': typeof UpdatesRoute
   '/campaigns/$slug': typeof CampaignsSlugRoute
   '/campaigns': typeof CampaignsIndexRoute
+  '/api/public/paystack-webhook': typeof ApiPublicPaystackWebhookRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
   '/admin/campaigns/$id': typeof AuthenticatedAdminCampaignsIdRoute
   '/api/public/campaign-photo/$slug': typeof ApiPublicCampaignPhotoSlugRoute
@@ -186,11 +203,13 @@ export interface FileRoutesById {
   '/request-assistance': typeof RequestAssistanceRoute
   '/stories': typeof StoriesRoute
   '/terms': typeof TermsRoute
+  '/thank-you': typeof ThankYouRoute
   '/transparency': typeof TransparencyRoute
   '/updates': typeof UpdatesRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
   '/campaigns/$slug': typeof CampaignsSlugRoute
   '/campaigns/': typeof CampaignsIndexRoute
+  '/api/public/paystack-webhook': typeof ApiPublicPaystackWebhookRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
   '/_authenticated/admin/campaigns/$id': typeof AuthenticatedAdminCampaignsIdRoute
   '/api/public/campaign-photo/$slug': typeof ApiPublicCampaignPhotoSlugRoute
@@ -209,11 +228,13 @@ export interface FileRouteTypes {
     | '/request-assistance'
     | '/stories'
     | '/terms'
+    | '/thank-you'
     | '/transparency'
     | '/updates'
     | '/admin'
     | '/campaigns/$slug'
     | '/campaigns/'
+    | '/api/public/paystack-webhook'
     | '/admin/'
     | '/admin/campaigns/$id'
     | '/api/public/campaign-photo/$slug'
@@ -229,10 +250,12 @@ export interface FileRouteTypes {
     | '/request-assistance'
     | '/stories'
     | '/terms'
+    | '/thank-you'
     | '/transparency'
     | '/updates'
     | '/campaigns/$slug'
     | '/campaigns'
+    | '/api/public/paystack-webhook'
     | '/admin'
     | '/admin/campaigns/$id'
     | '/api/public/campaign-photo/$slug'
@@ -250,11 +273,13 @@ export interface FileRouteTypes {
     | '/request-assistance'
     | '/stories'
     | '/terms'
+    | '/thank-you'
     | '/transparency'
     | '/updates'
     | '/_authenticated/admin'
     | '/campaigns/$slug'
     | '/campaigns/'
+    | '/api/public/paystack-webhook'
     | '/_authenticated/admin/'
     | '/_authenticated/admin/campaigns/$id'
     | '/api/public/campaign-photo/$slug'
@@ -273,8 +298,10 @@ export interface RootRouteChildren {
   RequestAssistanceRoute: typeof RequestAssistanceRoute
   StoriesRoute: typeof StoriesRoute
   TermsRoute: typeof TermsRoute
+  ThankYouRoute: typeof ThankYouRoute
   TransparencyRoute: typeof TransparencyRoute
   UpdatesRoute: typeof UpdatesRoute
+  ApiPublicPaystackWebhookRoute: typeof ApiPublicPaystackWebhookRoute
   ApiPublicCampaignPhotoSlugRoute: typeof ApiPublicCampaignPhotoSlugRoute
 }
 
@@ -364,6 +391,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TermsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/thank-you': {
+      id: '/thank-you'
+      path: '/thank-you'
+      fullPath: '/thank-you'
+      preLoaderRoute: typeof ThankYouRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/transparency': {
       id: '/transparency'
       path: '/transparency'
@@ -405,6 +439,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/admin/'
       preLoaderRoute: typeof AuthenticatedAdminIndexRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/api/public/paystack-webhook': {
+      id: '/api/public/paystack-webhook'
+      path: '/api/public/paystack-webhook'
+      fullPath: '/api/public/paystack-webhook'
+      preLoaderRoute: typeof ApiPublicPaystackWebhookRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/_authenticated/admin/campaigns/$id': {
       id: '/_authenticated/admin/campaigns/$id'
@@ -474,8 +515,10 @@ const rootRouteChildren: RootRouteChildren = {
   RequestAssistanceRoute: RequestAssistanceRoute,
   StoriesRoute: StoriesRoute,
   TermsRoute: TermsRoute,
+  ThankYouRoute: ThankYouRoute,
   TransparencyRoute: TransparencyRoute,
   UpdatesRoute: UpdatesRoute,
+  ApiPublicPaystackWebhookRoute: ApiPublicPaystackWebhookRoute,
   ApiPublicCampaignPhotoSlugRoute: ApiPublicCampaignPhotoSlugRoute,
 }
 export const routeTree = rootRouteImport

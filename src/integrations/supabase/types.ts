@@ -267,11 +267,16 @@ export type Database = {
         Row: {
           amount_cad: number
           campaign_id: string | null
+          charge_amount_minor: number | null
+          charge_currency: string | null
           completed_at: string | null
           created_at: string
           currency: string
           donor_display_name: string | null
+          donor_message: string | null
           environment: string
+          fx_rate_date: string | null
+          fx_rate_per_cad: number | null
           id: string
           is_anonymous: boolean
           provider: string
@@ -281,11 +286,16 @@ export type Database = {
         Insert: {
           amount_cad: number
           campaign_id?: string | null
+          charge_amount_minor?: number | null
+          charge_currency?: string | null
           completed_at?: string | null
           created_at?: string
           currency?: string
           donor_display_name?: string | null
+          donor_message?: string | null
           environment?: string
+          fx_rate_date?: string | null
+          fx_rate_per_cad?: number | null
           id?: string
           is_anonymous?: boolean
           provider?: string
@@ -295,11 +305,16 @@ export type Database = {
         Update: {
           amount_cad?: number
           campaign_id?: string | null
+          charge_amount_minor?: number | null
+          charge_currency?: string | null
           completed_at?: string | null
           created_at?: string
           currency?: string
           donor_display_name?: string | null
+          donor_message?: string | null
           environment?: string
+          fx_rate_date?: string | null
+          fx_rate_per_cad?: number | null
           id?: string
           is_anonymous?: boolean
           provider?: string

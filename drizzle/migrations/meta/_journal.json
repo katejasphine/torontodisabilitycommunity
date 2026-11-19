@@ -50,6 +50,13 @@
       "when": 1795077451693,
       "tag": "0006_recent_gifts_function",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1795077730727,
+      "tag": "0007_paystack_charge_details",
+      "breakpoints": true
     }
   ]
 }

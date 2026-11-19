@@ -39,3 +39,16 @@ export function progressPercent(raised: number, goal: number): number {
   if (goal <= 0) return 0;
   return Math.min(100, Math.round((raised / goal) * 100));
 }
+
+/** Currencies Paystack charges donors in. Donors choose their gift in CAD; we charge the equivalent. */
+export const CHARGE_CURRENCIES = ["USD", "NGN"] as const;
+export type ChargeCurrency = (typeof CHARGE_CURRENCIES)[number];
+
+/** Smallest unit Paystack expects: cents for USD, kobo for NGN (both 1/100). */
+export function toChargeMinor(amountCad: number, ratePerCad: number): number {
+  return Math.max(1, Math.round(amountCad * ratePerCad * 100));
+}
+
+export function formatCharge(minor: number, currency: ChargeCurrency): string {
+  return new Intl.NumberFormat("en-CA", { style: "currency", currency, currencyDisplay: "narrowSymbol" }).format(minor / 100);
+}
