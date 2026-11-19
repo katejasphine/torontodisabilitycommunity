@@ -3,6 +3,7 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import { CampaignCard } from "@/components/site/CampaignCard";
 import { Notice } from "@/components/site/Notice";
 import { PageHeader } from "@/components/site/PageHeader";
+import { SupportMatcher } from "@/components/site/SupportMatcher";
 import { Button } from "@/components/ui/button";
 import { campaignsQuery } from "@/lib/campaigns.functions";
 
@@ -54,6 +55,9 @@ function Campaigns() {
           </Button>
         </div>
       </section>
+      <div className="container-page mt-16">
+        <SupportMatcher />
+      </div>
     </>
   );
 }

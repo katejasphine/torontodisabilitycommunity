@@ -7,6 +7,7 @@ import danielPhoto from "@/assets/daniel-story-desk.png.asset.json";
 import gracePhoto from "@/assets/grace-story-couch.png.asset.json";
 import { Button } from "@/components/ui/button";
 import { PageHeader } from "@/components/site/PageHeader";
+import { SupportMatcher } from "@/components/site/SupportMatcher";
 import { COMMUNITY_STORIES } from "@/lib/site";
 
 const PHOTOS: Record<(typeof COMMUNITY_STORIES)[number]["id"], string> = {
@@ -53,6 +54,10 @@ function Stories() {
           ))}
         </ul>
       </nav>
+
+      <div className="container-page mt-10">
+        <SupportMatcher />
+      </div>
 
       {COMMUNITY_STORIES.map((story, i) => (
         <article

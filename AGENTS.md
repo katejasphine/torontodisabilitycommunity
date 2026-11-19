@@ -38,3 +38,4 @@ use the editor.
 - Donation records are written only by trusted server code after the payment provider confirms; public totals count completed live payments only — prevents inflated or test figures.
 - Impact figures and the General Community Fund bar come from the `get_impact_stats` database summary (totals only) combined with organizer-reported offline gifts in `src/lib/impact.ts` — one place to audit every public number.
 - Campaign photos are served only through the `/api/public/campaign-photo/$slug` route after a published-campaign lookup; storage has no public read rule — keeps unpublished photos private.
+- The "Find where your support matters most" matcher (`src/lib/recommend*.ts`) sends visitor text to the AI Gateway from server code only, stores nothing, and keeps only story/appeal ids that exist in the site's catalog — the AI can't invent beneficiaries or appeals.

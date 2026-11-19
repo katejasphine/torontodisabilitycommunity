@@ -12,6 +12,7 @@
 - [x] Mastodon link (rel="me") in the header
 - [x] Stories page: six first-person stories (Sarah, Kely, Michael, Emily, Daniel, Grace) with new photos
 - [x] Final Privacy Policy, Terms and live Financial Report on Transparency
+- [x] AI-powered "find where to help" suggestions on Stories and Campaigns
 - [ ] Slack message for every new contact message and assistance request
 - [ ] Online donations via Stripe (blocked: workspace needs a paid plan)
 - [ ] Owner email alerts for new requests (needs verified email domain)

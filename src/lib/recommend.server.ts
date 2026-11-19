@@ -83,7 +83,7 @@ export async function recommendForChallenge(challenge: string, signal?: AbortSig
       ],
       output: Output.object({ schema }),
       maxRetries: 1,
-      abortSignal: signal,
+      ...(signal ? { abortSignal: signal } : {}),
       onError: ({ error }) => {
         streamError = error;
       },
