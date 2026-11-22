@@ -160,20 +160,9 @@ export async function confirmDonation(reference: string): Promise<ConfirmResult>
 
   const tx = await verifyTransaction(reference);
   if (!tx) return { state: "not_found" };
-  if (tx.status === "failed" || tx.status === "reversed") return { state: "failed" };
-  if (tx.status !== "success") return { state: "pending" };
-
-  const rawMeta = typeof tx.metadata === "string" ? safeJson(tx.metadata) : tx.metadata;
-  const meta = giftMetadataSchema.safeParse(rawMeta);
-  if (!meta.success) {
-    console.error("Verified Paystack payment has unexpected metadata", reference);
-    return { state: "pending" };
-  }
-  const m = meta.data;
-  if (tx.currency !== m.charge_currency || tx.amount !== m.charge_minor || tx.amount !== toChargeMinor(m.amount_cad, m.fx_rate_per_cad)) {
-    console.error("Paystack amount/currency mismatch for gift", reference);
-    return { state: "pending" };
-  }
+  const verdict = evaluateVerifiedPayment(tx);
+  if (verdict.state !== "ok") return { state: verdict.state };
+  const m = verdict.meta;
 
   const { error } = await supabaseAdmin.from("donations").insert({
     campaign_id: m.campaign_id,
@@ -194,6 +183,26 @@ export async function confirmDonation(reference: string): Promise<ConfirmResult>
   // 23505 = already saved by a concurrent confirmation (webhook and return page racing).
   if (error && error.code !== "23505") throw new Error(`Couldn't save gift: ${error.message}`);
   return { state: "completed", amountCad: m.amount_cad, chargeMinor: m.charge_minor, chargeCurrency: m.charge_currency };
+}
+
+/** Decides from Paystack's verified record whether a gift may be saved. Pure, so the rules are testable. */
+export function evaluateVerifiedPayment(
+  tx: Pick<VerifiedTransaction, "status" | "amount" | "currency" | "metadata">,
+): { state: "ok"; meta: GiftMetadata } | { state: "failed" | "pending" } {
+  if (tx.status === "failed" || tx.status === "reversed") return { state: "failed" };
+  if (tx.status !== "success") return { state: "pending" };
+  const rawMeta = typeof tx.metadata === "string" ? safeJson(tx.metadata) : tx.metadata;
+  const meta = giftMetadataSchema.safeParse(rawMeta);
+  if (!meta.success) {
+    console.error("Verified Paystack payment has unexpected metadata");
+    return { state: "pending" };
+  }
+  const m = meta.data;
+  if (tx.currency !== m.charge_currency || tx.amount !== m.charge_minor || tx.amount !== toChargeMinor(m.amount_cad, m.fx_rate_per_cad)) {
+    console.error("Paystack amount/currency mismatch");
+    return { state: "pending" };
+  }
+  return { state: "ok", meta: m };
 }
 
 function safeJson(text: string): unknown {
