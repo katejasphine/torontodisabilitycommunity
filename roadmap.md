@@ -14,6 +14,11 @@
 - [x] Final Privacy Policy, Terms and live Financial Report on Transparency
 - [x] AI-powered "find where to help" suggestions on Stories and Campaigns
 - [ ] Slack message for every new contact message and assistance request
-- [ ] Online donations via Paystack (owner has a Paystack secret key)
+- [ ] Online donations via Paystack (NGN/USD, test mode first)
+  - [ ] Save only verified gifts; verify every payment with Paystack before saving
+  - [ ] Webhook with signature check
+  - [ ] Clear success and failure pages
+  - [ ] Organizer gift records + financial report
+  - [ ] Full project error check; audit report + testing steps
 - [x] Our Impact: list every confirmed online gift (amount and date only)
 - [ ] Owner email alerts for new requests (needs verified email domain)

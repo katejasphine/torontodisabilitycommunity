@@ -1,8 +1,8 @@
 import { createServerFn } from "@tanstack/react-start";
-import { getRequest } from "@tanstack/react-start/server";
 import { queryOptions } from "@tanstack/react-query";
 import { z } from "zod";
 import { CHARGE_CURRENCIES, MAX_DONATION_CAD, MIN_DONATION_CAD, toChargeMinor } from "./donation";
+import type { GiftMetadata } from "./paystack.server";
 
 /** Today's market rates for 1 CAD in USD and NGN (for the donate page preview). */
 export const getDonationRates = createServerFn({ method: "GET" }).handler(async () => {
@@ -30,18 +30,19 @@ const startSchema = z.object({
   anonymous: z.boolean(),
   displayName: z.string().trim().max(80).nullable(),
   message: z.string().trim().max(500).nullable(),
+  origin: z.string().max(200),
 });
 
-/** Public: creates a pending gift and returns the Paystack checkout link. The gift only counts once Paystack confirms it. */
+/** Public: starts a Paystack checkout. Nothing is saved until Paystack verifies the payment. */
 export const startDonation = createServerFn({ method: "POST" })
   .inputValidator((input: z.input<typeof startSchema>) => startSchema.parse(input))
   .handler(async ({ data }) => {
-    const { getFxRates, initializeTransaction, PaystackError } = await import("./paystack.server");
-    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { getFxRates, initializeTransaction, PaystackError, returnOrigin } = await import("./paystack.server");
+    const { publicClient } = await import("./supabase-public.server");
 
     let campaignId: string | null = null;
     if (data.fund !== "general") {
-      const { data: c } = await supabaseAdmin.from("campaigns").select("id").eq("slug", data.fund).eq("status", "published").maybeSingle();
+      const { data: c } = await publicClient().from("campaigns").select("id").eq("slug", data.fund).eq("status", "published").maybeSingle();
       if (!c) return { ok: false as const, error: "That campaign isn't accepting gifts right now." };
       campaignId = c.id;
     }
@@ -55,46 +56,35 @@ export const startDonation = createServerFn({ method: "POST" })
     }
     const rate = rates[data.currency];
     const chargeMinor = toChargeMinor(data.amountCad, rate);
-
-    const { data: row, error } = await supabaseAdmin
-      .from("donations")
-      .insert({
-        campaign_id: campaignId,
-        amount_cad: data.amountCad,
-        status: "pending",
-        provider: "paystack",
-        is_anonymous: data.anonymous,
-        donor_display_name: data.anonymous ? null : data.displayName || null,
-        donor_message: data.message || null,
-        charge_currency: data.currency,
-        charge_amount_minor: chargeMinor,
-        fx_rate_per_cad: rate,
-        fx_rate_date: rates.updatedAt,
-      })
-      .select("id")
-      .single();
-    if (error || !row) {
-      console.error("Couldn't create gift", error);
-      return { ok: false as const, error: "We couldn't start your gift. Please try again." };
-    }
-
-    const origin = new URL(getRequest().url).origin;
+    const origin = returnOrigin(data.origin);
+    // Nothing is saved yet: the gift is stored only after Paystack verifies the payment.
+    const metadata: GiftMetadata = {
+      amount_cad: data.amountCad,
+      campaign_id: campaignId,
+      charge_currency: data.currency,
+      charge_minor: chargeMinor,
+      fx_rate_per_cad: rate,
+      fx_rate_date: rates.updatedAt,
+      anonymous: data.anonymous,
+      display_name: data.anonymous ? null : data.displayName || null,
+      message: data.message || null,
+    };
     try {
       const tx = await initializeTransaction({
         email: data.email,
         amountMinor: chargeMinor,
         currency: data.currency,
-        reference: row.id,
+        reference: `tdcs-${crypto.randomUUID()}`,
         callbackUrl: `${origin}/thank-you`,
-        metadata: { fund: data.fund, amount_cad: data.amountCad, cancel_action: `${origin}/donate` },
+        cancelUrl: `${origin}/donation-failed?reason=cancelled`,
+        metadata,
       });
       return { ok: true as const, url: tx.authorization_url };
     } catch (e) {
       console.error("Paystack initialize failed", e);
-      await supabaseAdmin.from("donations").update({ status: "failed" }).eq("id", row.id);
       const msg =
-        e instanceof PaystackError && /currency/i.test(e.message)
-          ? `Paystack can't take ${data.currency} payments on this account yet. Please choose the other currency.`
+        e instanceof PaystackError && (e.code === "unsupported_currency" || /currency/i.test(e.message))
+          ? `Your Paystack account doesn't accept ${data.currency === "USD" ? "US dollar" : "naira"} payments yet. Please choose the other currency.`
           : "Our payment provider couldn't start the payment. Please try again.";
       return { ok: false as const, error: msg };
     }

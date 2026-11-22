@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, Navigate } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { CheckCircle2, Loader2 } from "lucide-react";
@@ -59,20 +59,22 @@ function ThankYou() {
                 Paystack has emailed your receipt.
               </p>
             )}
-            <p className="mt-3 text-muted-foreground">Donations are not tax-deductible. Your gift now appears on Our Impact.</p>
+            <p className="mt-3 text-muted-foreground">Donations are not tax-deductible. Real (live) gifts appear on Our Impact.</p>
             <div className="mt-6 flex flex-wrap gap-3">
               <Button asChild size="lg"><Link to="/impact">See Our Impact</Link></Button>
               <Button asChild size="lg" variant="outline"><Link to="/stories">Read community stories</Link></Button>
             </div>
           </div>
         ) : r?.state === "failed" ? (
-          <Notice title="Your payment didn't go through">
-            No money was taken. You can <Link to="/donate" className="underline">try again</Link>.
+          <Navigate to="/donation-failed" search={{ reason: "failed" }} replace />
+        ) : r?.state === "not_found" ? (
+          <Notice title="We couldn't find that payment">
+            No gift was recorded. If you were charged, please <Link to="/contact" className="underline">contact us</Link>.
           </Notice>
         ) : (
           <Notice title="We're still waiting for confirmation">
-            Your payment hasn't been confirmed yet. If you completed it, it will appear on Our Impact shortly. If you
-            cancelled, no money was taken — you can <Link to="/donate" className="underline">try again</Link>.
+            Paystack hasn't confirmed this payment yet, so it isn't recorded. If you completed it, it will be recorded
+            shortly. If you cancelled, no money was taken — you can <Link to="/donate" className="underline">try again</Link>.
           </Notice>
         )}
       </section>

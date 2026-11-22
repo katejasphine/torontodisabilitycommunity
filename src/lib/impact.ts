@@ -15,6 +15,7 @@ export type ImpactStat = { label: string; value: number; format: "number" | "cur
 export type ImpactSummary = {
   stats: ImpactStat[];
   generalFund: { goal: number; raised: number; supporters: number };
+  online: { raised: number; count: number };
 };
 
 const addCAD = (a: number, b: number) => (Math.round(a * 100) + Math.round(b * 100)) / 100;
@@ -33,6 +34,7 @@ export function buildImpactSummary(t: ImpactTotals, fund = GENERAL_FUND): Impact
       raised: addCAD(fund.offlineRaised, t.general_fund_raised_cad),
       supporters: fund.offlineSupporters + t.general_fund_donation_count,
     },
+    online: { raised: t.online_raised_cad, count: t.online_donation_count },
   };
 }
 

@@ -16,6 +16,7 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as CampaignsRouteImport } from './routes/campaigns'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as DonateRouteImport } from './routes/donate'
+import { Route as DonationFailedRouteImport } from './routes/donation-failed'
 import { Route as ImpactRouteImport } from './routes/impact'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as RequestAssistanceRouteImport } from './routes/request-assistance'
@@ -28,6 +29,7 @@ import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/
 import { Route as CampaignsIndexRouteImport } from './routes/campaigns.index'
 import { Route as CampaignsSlugRouteImport } from './routes/campaigns.$slug'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
+import { Route as AuthenticatedAdminGiftsRouteImport } from './routes/_authenticated/admin.gifts'
 import { Route as ApiPublicPaystackWebhookRouteImport } from './routes/api/public/paystack-webhook'
 import { Route as AuthenticatedAdminCampaignsIdRouteImport } from './routes/_authenticated/admin.campaigns.$id'
 import { Route as ApiPublicCampaignPhotoSlugRouteImport } from './routes/api/public/campaign-photo.$slug'
@@ -64,6 +66,11 @@ const ContactRoute = ContactRouteImport.update({
 const DonateRoute = DonateRouteImport.update({
   id: '/donate',
   path: '/donate',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DonationFailedRoute = DonationFailedRouteImport.update({
+  id: '/donation-failed',
+  path: '/donation-failed',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ImpactRoute = ImpactRouteImport.update({
@@ -126,6 +133,11 @@ const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AuthenticatedAdminRoute,
 } as any)
+const AuthenticatedAdminGiftsRoute = AuthenticatedAdminGiftsRouteImport.update({
+  id: '/gifts',
+  path: '/gifts',
+  getParentRoute: () => AuthenticatedAdminRoute,
+} as any)
 const ApiPublicPaystackWebhookRoute =
   ApiPublicPaystackWebhookRouteImport.update({
     id: '/api/public/paystack-webhook',
@@ -152,6 +164,7 @@ export interface FileRoutesByFullPath {
   '/campaigns': typeof CampaignsRouteWithChildren
   '/contact': typeof ContactRoute
   '/donate': typeof DonateRoute
+  '/donation-failed': typeof DonationFailedRoute
   '/impact': typeof ImpactRoute
   '/privacy': typeof PrivacyRoute
   '/request-assistance': typeof RequestAssistanceRoute
@@ -163,6 +176,7 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AuthenticatedAdminRouteWithChildren
   '/campaigns/$slug': typeof CampaignsSlugRoute
   '/campaigns/': typeof CampaignsIndexRoute
+  '/admin/gifts': typeof AuthenticatedAdminGiftsRoute
   '/api/public/paystack-webhook': typeof ApiPublicPaystackWebhookRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
   '/admin/campaigns/$id': typeof AuthenticatedAdminCampaignsIdRoute
@@ -174,6 +188,7 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
   '/donate': typeof DonateRoute
+  '/donation-failed': typeof DonationFailedRoute
   '/impact': typeof ImpactRoute
   '/privacy': typeof PrivacyRoute
   '/request-assistance': typeof RequestAssistanceRoute
@@ -184,6 +199,7 @@ export interface FileRoutesByTo {
   '/updates': typeof UpdatesRoute
   '/campaigns/$slug': typeof CampaignsSlugRoute
   '/campaigns': typeof CampaignsIndexRoute
+  '/admin/gifts': typeof AuthenticatedAdminGiftsRoute
   '/api/public/paystack-webhook': typeof ApiPublicPaystackWebhookRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
   '/admin/campaigns/$id': typeof AuthenticatedAdminCampaignsIdRoute
@@ -198,6 +214,7 @@ export interface FileRoutesById {
   '/campaigns': typeof CampaignsRouteWithChildren
   '/contact': typeof ContactRoute
   '/donate': typeof DonateRoute
+  '/donation-failed': typeof DonationFailedRoute
   '/impact': typeof ImpactRoute
   '/privacy': typeof PrivacyRoute
   '/request-assistance': typeof RequestAssistanceRoute
@@ -209,6 +226,7 @@ export interface FileRoutesById {
   '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
   '/campaigns/$slug': typeof CampaignsSlugRoute
   '/campaigns/': typeof CampaignsIndexRoute
+  '/_authenticated/admin/gifts': typeof AuthenticatedAdminGiftsRoute
   '/api/public/paystack-webhook': typeof ApiPublicPaystackWebhookRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
   '/_authenticated/admin/campaigns/$id': typeof AuthenticatedAdminCampaignsIdRoute
@@ -223,6 +241,7 @@ export interface FileRouteTypes {
     | '/campaigns'
     | '/contact'
     | '/donate'
+    | '/donation-failed'
     | '/impact'
     | '/privacy'
     | '/request-assistance'
@@ -234,6 +253,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/campaigns/$slug'
     | '/campaigns/'
+    | '/admin/gifts'
     | '/api/public/paystack-webhook'
     | '/admin/'
     | '/admin/campaigns/$id'
@@ -245,6 +265,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/contact'
     | '/donate'
+    | '/donation-failed'
     | '/impact'
     | '/privacy'
     | '/request-assistance'
@@ -255,6 +276,7 @@ export interface FileRouteTypes {
     | '/updates'
     | '/campaigns/$slug'
     | '/campaigns'
+    | '/admin/gifts'
     | '/api/public/paystack-webhook'
     | '/admin'
     | '/admin/campaigns/$id'
@@ -268,6 +290,7 @@ export interface FileRouteTypes {
     | '/campaigns'
     | '/contact'
     | '/donate'
+    | '/donation-failed'
     | '/impact'
     | '/privacy'
     | '/request-assistance'
@@ -279,6 +302,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin'
     | '/campaigns/$slug'
     | '/campaigns/'
+    | '/_authenticated/admin/gifts'
     | '/api/public/paystack-webhook'
     | '/_authenticated/admin/'
     | '/_authenticated/admin/campaigns/$id'
@@ -293,6 +317,7 @@ export interface RootRouteChildren {
   CampaignsRoute: typeof CampaignsRouteWithChildren
   ContactRoute: typeof ContactRoute
   DonateRoute: typeof DonateRoute
+  DonationFailedRoute: typeof DonationFailedRoute
   ImpactRoute: typeof ImpactRoute
   PrivacyRoute: typeof PrivacyRoute
   RequestAssistanceRoute: typeof RequestAssistanceRoute
@@ -354,6 +379,13 @@ declare module '@tanstack/react-router' {
       path: '/donate'
       fullPath: '/donate'
       preLoaderRoute: typeof DonateRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/donation-failed': {
+      id: '/donation-failed'
+      path: '/donation-failed'
+      fullPath: '/donation-failed'
+      preLoaderRoute: typeof DonationFailedRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/impact': {
@@ -440,6 +472,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminIndexRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/gifts': {
+      id: '/_authenticated/admin/gifts'
+      path: '/gifts'
+      fullPath: '/admin/gifts'
+      preLoaderRoute: typeof AuthenticatedAdminGiftsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/api/public/paystack-webhook': {
       id: '/api/public/paystack-webhook'
       path: '/api/public/paystack-webhook'
@@ -465,11 +504,13 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedAdminRouteChildren {
+  AuthenticatedAdminGiftsRoute: typeof AuthenticatedAdminGiftsRoute
   AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
   AuthenticatedAdminCampaignsIdRoute: typeof AuthenticatedAdminCampaignsIdRoute
 }
 
 const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
+  AuthenticatedAdminGiftsRoute: AuthenticatedAdminGiftsRoute,
   AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
   AuthenticatedAdminCampaignsIdRoute: AuthenticatedAdminCampaignsIdRoute,
 }
@@ -510,6 +551,7 @@ const rootRouteChildren: RootRouteChildren = {
   CampaignsRoute: CampaignsRouteWithChildren,
   ContactRoute: ContactRoute,
   DonateRoute: DonateRoute,
+  DonationFailedRoute: DonationFailedRoute,
   ImpactRoute: ImpactRoute,
   PrivacyRoute: PrivacyRoute,
   RequestAssistanceRoute: RequestAssistanceRoute,

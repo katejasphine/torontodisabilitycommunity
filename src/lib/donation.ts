@@ -50,5 +50,5 @@ export function toChargeMinor(amountCad: number, ratePerCad: number): number {
 }
 
 export function formatCharge(minor: number, currency: ChargeCurrency): string {
-  return new Intl.NumberFormat("en-CA", { style: "currency", currency, currencyDisplay: "narrowSymbol" }).format(minor / 100);
+  return new Intl.NumberFormat("en-CA", { style: "currency", currency, currencyDisplay: currency === "USD" ? "symbol" : "narrowSymbol" }).format(minor / 100);
 }

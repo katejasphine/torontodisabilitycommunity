@@ -48,6 +48,7 @@ function AdminLayout() {
         </div>
         <div className="flex gap-2">
           <Button asChild variant="outline" size="sm"><Link to="/admin">All campaigns</Link></Button>
+          <Button asChild variant="outline" size="sm"><Link to="/admin/gifts">Gifts</Link></Button>
           <Button variant="outline" size="sm" onClick={signOut}>Sign out</Button>
         </div>
       </div>

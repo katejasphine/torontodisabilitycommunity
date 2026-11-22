@@ -20,3 +20,16 @@ describe("donation rules", () => {
     expect(progressPercent(0, 4500)).toBe(0);
   });
 });
+
+describe("Paystack charge amounts", () => {
+  it("only charges in US dollars or Nigerian naira", async () => {
+    const { CHARGE_CURRENCIES } = await import("./donation");
+    expect([...CHARGE_CURRENCIES]).toEqual(["USD", "NGN"]);
+  });
+
+  it("charges the market-rate equivalent of the CAD gift in cents or kobo", async () => {
+    const { toChargeMinor } = await import("./donation");
+    expect(toChargeMinor(50, 0.698247)).toBe(3491); // CAD $50 -> US$34.91
+    expect(toChargeMinor(25, 952.21648)).toBe(2380541); // CAD $25 -> ₦23,805.41
+  });
+});

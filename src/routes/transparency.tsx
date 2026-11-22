@@ -27,6 +27,7 @@ function Transparency() {
   const rows: [string, string][] = [
     ["Fundraising target", formatCAD(fund.goal)],
     ["Total raised", formatCAD(fund.raised)],
+    ["Confirmed online gifts (Paystack, all funds)", `${formatCAD(impact.online.raised)} from ${impact.online.count} gifts`],
     ["Progress achieved", `${progressPercent(fund.raised, fund.goal)}%`],
     ["Remaining target", formatCAD(Math.max(0, fund.goal - fund.raised))],
     ["Verified supporters", String(fund.supporters)],
@@ -45,9 +46,9 @@ function Transparency() {
         </p>
         <h2>How donations are collected</h2>
         <p>
-          Donations are processed by a secure third-party payment provider. Card details go directly to the provider;
-          this website never sees or stores card numbers. A donation is counted in our totals only once the provider
-          confirms it succeeded.
+          Donations are processed by Paystack, a secure payment provider, in US dollars or Nigerian naira at the day's
+          market exchange rate. Card details go directly to Paystack; this website never sees or stores card numbers. A
+          donation is recorded only after Paystack verifies it succeeded, and is counted in CAD at the rate used.
         </p>
         <h2>Two separate funds</h2>
         <ul>
